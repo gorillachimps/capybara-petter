@@ -1,0 +1,16 @@
+{
+  "accountAssociation": {
+    "header": "PASTE_HEADER_HERE",
+    "payload": "PASTE_PAYLOAD_HERE",
+    "signature": "PASTE_SIGNATURE_HERE"
+  },
+  "miniapp": {
+    "version": "1",
+    "name": "Capybara Petter",
+    "iconUrl": "https://capybara-petter.vercel.app/icon.png",
+    "homeUrl": "https://capybara-petter.vercel.app/",
+    "splashImageUrl": "https://capybara-petter.vercel.app/icon.png",
+    "splashBackgroundColor": "#1a0f05",
+    "requiredChains": ["eip155:8453"]
+  }
+}
