@@ -377,6 +377,21 @@
     <button class="bottom-nav-item" onclick="scrollToSection('contractInfo')"><span class="bottom-nav-icon">&#x2139;&#xFE0F;</span><span class="bottom-nav-label">Info</span></button>
   </nav>
 
+  <!-- Coinbase Wallet SDK (Smart Wallet support) -->
+  <script type="module">
+    import { createCoinbaseWalletSDK } from 'https://esm.sh/@coinbase/wallet-sdk';
+    try {
+      const cbSDK = createCoinbaseWalletSDK({
+        appName: 'Capybara Petter',
+        appLogoUrl: 'https://capybara-petter.vercel.app/icon.png',
+        appChainIds: [8453],
+      });
+      window.__cbProvider = cbSDK.getProvider();
+    } catch(e) {
+      console.warn('Coinbase SDK init:', e);
+    }
+  </script>
+
   <!-- Farcaster Mini App SDK -->
   <script type="module">
     import { sdk } from 'https://esm.sh/@farcaster/miniapp-sdk';
@@ -791,24 +806,60 @@
         if (coinbase) return coinbase.provider;
         return discoveredWallets[0].provider;
       }
+      // Coinbase Smart Wallet SDK provider
+      if (window.__cbProvider) return window.__cbProvider;
       // Fallback: check for Coinbase Wallet extension directly
       if (window.coinbaseWalletExtension) return window.coinbaseWalletExtension;
       return window.ethereum || null;
     }
 
-    function showWalletPicker() {
-      if (discoveredWallets.length <= 1) return null;
+    function buildWalletOptions() {
+      const options = [];
+      // Add EIP-6963 discovered wallets
+      discoveredWallets.forEach(w => {
+        options.push({
+          name: w.info.name,
+          icon: w.info.icon || '',
+          provider: w.provider,
+          id: 'eip6963-' + w.info.uuid,
+        });
+      });
+      // Add Coinbase Smart Wallet (SDK) if not already discovered via EIP-6963
+      const hasCoinbaseEIP6963 = discoveredWallets.some(w =>
+        w.info.name.toLowerCase().includes('coinbase') || w.info.rdns === 'com.coinbase.wallet'
+      );
+      if (window.__cbProvider) {
+        options.push({
+          name: hasCoinbaseEIP6963 ? 'Coinbase Smart Wallet' : 'Coinbase Wallet',
+          icon: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIHZpZXdCb3g9IjAgMCA0OCA0OCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIHJ4PSIxMiIgZmlsbD0iIzAwNTJGRiIvPjxwYXRoIGQ9Ik0yNCAzNGMtNS41MjMgMC0xMC00LjQ3Ny0xMC0xMHM0LjQ3Ny0xMCAxMC0xMCAxMCA0LjQ3NyAxMCAxMC00LjQ3NyAxMC0xMCAxMHptMC0xNGMtMi4yMSAwLTQgMS43OS00IDRzMS43OSA0IDQgNCA0LTEuNzkgNC00LTEuNzktNC00LTR6IiBmaWxsPSJ3aGl0ZSIvPjwvc3ZnPg==',
+          provider: window.__cbProvider,
+          id: 'coinbase-sdk',
+        });
+      }
+      // Add window.ethereum fallback if not already covered
+      if (window.ethereum && !options.some(o => o.provider === window.ethereum)) {
+        options.push({
+          name: window.ethereum.isMetaMask ? 'MetaMask' : 'Browser Wallet',
+          icon: '',
+          provider: window.ethereum,
+          id: 'injected',
+        });
+      }
+      return options;
+    }
+
+    function showWalletPicker(options) {
       return new Promise((resolve) => {
         const overlay = document.createElement('div');
         overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);z-index:1000;display:flex;align-items:center;justify-content:center;';
         const modal = document.createElement('div');
         modal.style.cssText = 'background:var(--bg-card,#1e1208);border:1px solid var(--nav-border,rgba(212,145,94,0.15));border-radius:16px;padding:1.5rem;max-width:360px;width:90%;';
         modal.innerHTML = '<h3 style="font-family:Righteous;color:var(--warm-light,#E8B88A);text-align:center;margin-bottom:1rem;">Choose Wallet</h3>';
-        discoveredWallets.forEach((w, i) => {
+        options.forEach((w) => {
           const btn = document.createElement('button');
           btn.style.cssText = 'display:flex;align-items:center;gap:0.75rem;width:100%;padding:0.75rem 1rem;margin:0.4rem 0;border-radius:12px;background:var(--bg-stat,rgba(40,24,10,0.5));border:1px solid var(--stat-border,rgba(212,145,94,0.1));color:var(--text-primary,#e8ddd0);cursor:pointer;font-size:0.95rem;font-weight:600;min-height:52px;';
-          const icon = w.info.icon ? `<img src="${w.info.icon}" style="width:32px;height:32px;border-radius:8px;">` : '';
-          btn.innerHTML = `${icon}<span>${w.info.name}</span>`;
+          const icon = w.icon ? `<img src="${w.icon}" style="width:32px;height:32px;border-radius:8px;">` : '';
+          btn.innerHTML = `${icon}<span>${w.name}</span>`;
           btn.onclick = () => { overlay.remove(); resolve(w.provider); };
           modal.appendChild(btn);
         });
@@ -826,10 +877,13 @@
     // ==== WALLET ====
     async function connectWallet() {
       let provider;
-      // If multiple wallets detected via EIP-6963, show picker
-      if (discoveredWallets.length > 1) {
-        provider = await showWalletPicker();
+      const options = buildWalletOptions();
+      // If multiple wallet options, show picker
+      if (options.length > 1) {
+        provider = await showWalletPicker(options);
         if (!provider) return; // user cancelled
+      } else if (options.length === 1) {
+        provider = options[0].provider;
       } else {
         provider = await getProvider();
       }
