@@ -3,19 +3,23 @@
 <head><meta charset="UTF-8"></head>
 <body style="margin:0;background:#111;">
 <script>
-function generateBoth(img) {
-  // ── OG IMAGE 1200×630 ──
+let img1 = null, img2 = null;
+
+function tryGenerate() {
+  if (img1 && img2) generateBoth(img1, img2);
+}
+
+function generateBoth(ogImg, iconImg) {
+  // ── OG IMAGE 1200×630 ── (uses image 1)
   const og = document.createElement('canvas');
   og.width = 1200; og.height = 630;
   const octx = og.getContext('2d');
 
-  // Warm brown background
   const bg = octx.createLinearGradient(0,0,1200,630);
   bg.addColorStop(0,'#1a0f05'); bg.addColorStop(0.5,'#2a1a0a'); bg.addColorStop(1,'#1a0f05');
   octx.fillStyle = bg; octx.fillRect(0,0,1200,630);
 
-  // Draw capybara photo on right side
-  const srcAspect = img.naturalWidth / img.naturalHeight;
+  const srcAspect = ogImg.naturalWidth / ogImg.naturalHeight;
   const drawH = 630;
   const drawW = drawH * srcAspect;
   const capyX = 1200 - drawW * 0.85;
@@ -23,31 +27,26 @@ function generateBoth(img) {
   octx.beginPath();
   octx.rect(300, 0, 900, 630);
   octx.clip();
-  octx.drawImage(img, capyX, 0, drawW, drawH);
+  octx.drawImage(ogImg, capyX, 0, drawW, drawH);
   octx.restore();
 
-  // Dark gradient overlay on left for text legibility
   const leftFade = octx.createLinearGradient(0,0,700,0);
   leftFade.addColorStop(0,'rgba(26,15,5,1)');
   leftFade.addColorStop(0.55,'rgba(26,15,5,0.92)');
   leftFade.addColorStop(0.85,'rgba(26,15,5,0)');
   octx.fillStyle = leftFade; octx.fillRect(0,0,1200,630);
 
-  // Bottom vignette
   const btm = octx.createLinearGradient(0,400,0,630);
   btm.addColorStop(0,'rgba(26,15,5,0)'); btm.addColorStop(1,'rgba(26,15,5,0.8)');
   octx.fillStyle = btm; octx.fillRect(0,0,1200,630);
 
-  // Warm glow accent
   const glow = octx.createRadialGradient(120,320,0,120,320,300);
   glow.addColorStop(0,'rgba(212,145,94,0.08)'); glow.addColorStop(1,'rgba(212,145,94,0)');
   octx.fillStyle = glow; octx.fillRect(0,0,1200,630);
 
-  // Capybara emoji accent
   octx.font = '52px serif';
-  octx.fillText('🦫', 52, 90);
+  octx.fillText('\u{1F9AB}', 52, 90);
 
-  // Title
   octx.textAlign = 'left';
   octx.font = 'bold 80px "Arial Black", Arial';
   const titleGrad = octx.createLinearGradient(100,0,700,0);
@@ -56,27 +55,22 @@ function generateBoth(img) {
   octx.fillText('Capybara', 110, 220);
   octx.fillText('Petter', 110, 310);
 
-  // Subtitle
   octx.font = '26px Arial';
   octx.fillStyle = '#a07850';
   octx.fillText('The onchain capybara petting', 112, 370);
   octx.fillText('competition on Base', 112, 403);
 
-  // Divider line
   octx.strokeStyle = 'rgba(212,145,94,0.35)'; octx.lineWidth = 2;
   octx.beginPath(); octx.moveTo(112,428); octx.lineTo(480,428); octx.stroke();
 
-  // Base badge
   octx.font = 'bold 19px Arial';
   octx.fillStyle = '#D4915E';
-  octx.fillText('⬥ Built on Base  ·  ERC-8021', 112, 462);
+  octx.fillText('\u{2B25} Built on Base  \u{00B7}  ERC-8021', 112, 462);
 
-  // Builder tag
   octx.font = '15px monospace';
   octx.fillStyle = 'rgba(160,120,80,0.5)';
   octx.fillText('bc_4j84s978', 112, 492);
 
-  // Pet button-style label
   octx.fillStyle = 'rgba(212,145,94,0.15)';
   roundRect(octx, 112, 520, 260, 48, 10); octx.fill();
   octx.strokeStyle = 'rgba(212,145,94,0.5)'; octx.lineWidth = 1.5;
@@ -84,63 +78,56 @@ function generateBoth(img) {
   octx.font = 'bold 18px Arial';
   octx.fillStyle = '#E8B88A';
   octx.textAlign = 'center';
-  octx.fillText('❤️ Pet a Capybara!', 242, 549);
+  octx.fillText('\u{2764}\u{FE0F} Pet a Capybara!', 242, 549);
 
-  // ── ICON 512×512 ──
+  // ── ICON 1024×1024 ── (uses image 2)
   const ic = document.createElement('canvas');
-  ic.width = 512; ic.height = 512;
+  ic.width = 1024; ic.height = 1024;
   const ictx = ic.getContext('2d');
 
-  // Circle clip
-  ictx.beginPath(); ictx.arc(256,256,256,0,Math.PI*2); ictx.clip();
+  ictx.beginPath(); ictx.arc(512,512,512,0,Math.PI*2); ictx.clip();
+  ictx.fillStyle = '#1a0f05'; ictx.fillRect(0,0,1024,1024);
 
-  // Dark bg
-  ictx.fillStyle = '#1a0f05'; ictx.fillRect(0,0,512,512);
+  const iAspect = iconImg.naturalWidth / iconImg.naturalHeight;
+  const iDrawH = 1024;
+  const iDrawW = iDrawH * iAspect;
+  const iX = (1024 - iDrawW) / 2;
+  ictx.drawImage(iconImg, iX, 0, iDrawW, iDrawH);
 
-  // Draw capybara photo centered
-  const iDrawH = 512;
-  const iDrawW = iDrawH * srcAspect;
-  const iX = (512 - iDrawW) / 2;
-  ictx.drawImage(img, iX, 0, iDrawW, iDrawH);
-
-  // Subtle dark vignette
-  const vigGrad = ictx.createRadialGradient(256,256,160,256,256,260);
+  const vigGrad = ictx.createRadialGradient(512,512,320,512,512,520);
   vigGrad.addColorStop(0,'rgba(0,0,0,0)'); vigGrad.addColorStop(1,'rgba(0,0,0,0.55)');
-  ictx.fillStyle = vigGrad; ictx.fillRect(0,0,512,512);
+  ictx.fillStyle = vigGrad; ictx.fillRect(0,0,1024,1024);
 
-  // Warm ring border
-  ictx.strokeStyle = 'rgba(212,145,94,0.7)'; ictx.lineWidth = 10;
-  ictx.beginPath(); ictx.arc(256,256,251,0,Math.PI*2); ictx.stroke();
+  ictx.strokeStyle = 'rgba(212,145,94,0.7)'; ictx.lineWidth = 18;
+  ictx.beginPath(); ictx.arc(512,512,503,0,Math.PI*2); ictx.stroke();
 
-  // Label at bottom
   ictx.fillStyle = 'rgba(26,15,5,0.75)';
-  ictx.fillRect(0,420,512,92);
-  ictx.font = 'bold 32px "Arial Black", Arial';
+  ictx.fillRect(0,840,1024,184);
+  ictx.font = 'bold 60px "Arial Black", Arial';
   ictx.fillStyle = '#D4915E';
   ictx.textAlign = 'center';
-  ictx.fillText('CAPYBARA PETTER', 256, 468);
-  ictx.font = '18px Arial';
+  ictx.fillText('CAPYBARA PETTER', 512, 930);
+  ictx.font = '34px Arial';
   ictx.fillStyle = '#a07850';
-  ictx.fillText('Pet Capybaras on Base', 256, 496);
+  ictx.fillText('Pet Capybaras on Base', 512, 980);
 
-  // Show results
   const ogData = og.toDataURL('image/png');
   const icData = ic.toDataURL('image/png');
 
   document.body.innerHTML = `
     <div style="padding:20px;font-family:Arial;color:#fff;background:#111;min-height:100vh;">
-      <h2 style="color:#D4915E;">OG Image — 1200×630</h2>
+      <h2 style="color:#D4915E;">OG Image \u{2014} 1200\u{00D7}630 (Photo 1)</h2>
       <img src="${ogData}" style="max-width:100%;border:1px solid #333;border-radius:8px;"><br><br>
       <a download="og-image.png" href="${ogData}"
          style="display:inline-block;padding:10px 24px;background:#8B5E3C;color:#fff;border-radius:8px;text-decoration:none;font-size:18px;font-weight:bold;">
-        ⬇ Download og-image.png
+        \u{2B07} Download og-image.png
       </a>
       <hr style="border-color:#333;margin:40px 0;">
-      <h2 style="color:#D4915E;">Icon — 512×512</h2>
-      <img src="${icData}" style="width:200px;border-radius:50%;border:3px solid #D4915E;"><br><br>
+      <h2 style="color:#D4915E;">Icon \u{2014} 1024\u{00D7}1024 (Photo 2)</h2>
+      <img src="${icData}" style="width:250px;border-radius:50%;border:3px solid #D4915E;"><br><br>
       <a download="icon.png" href="${icData}"
          style="display:inline-block;padding:10px 24px;background:#8B5E3C;color:#fff;border-radius:8px;text-decoration:none;font-size:18px;font-weight:bold;">
-        ⬇ Download icon.png
+        \u{2B07} Download icon.png
       </a>
       <p style="color:#a07850;margin-top:30px;">Save both files into your capybara-petter folder, then tell Claude to commit!</p>
     </div>
@@ -153,52 +140,70 @@ function roundRect(ctx,x,y,w,h,r){
   ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();
 }
 
+function loadImage(file, slot) {
+  const reader = new FileReader();
+  reader.onload = ev => {
+    const img = new Image();
+    img.onload = () => {
+      if (slot === 1) { img1 = img; document.getElementById('thumb1').src = ev.target.result; document.getElementById('thumb1').style.display = 'block'; document.getElementById('label1').textContent = '\u{2705} Photo 1 loaded'; }
+      else { img2 = img; document.getElementById('thumb2').src = ev.target.result; document.getElementById('thumb2').style.display = 'block'; document.getElementById('label2').textContent = '\u{2705} Photo 2 loaded'; }
+      tryGenerate();
+    };
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
 window.onload = () => {
   document.body.innerHTML = `
-    <div style="padding:40px;font-family:Arial;color:#fff;background:#111;min-height:100vh;display:flex;align-items:center;justify-content:center;">
-      <div style="text-align:center;">
-        <div style="font-size:80px;margin-bottom:20px;">🦫</div>
-        <h2 style="color:#D4915E;">Drop the capybara photo here</h2>
-        <p style="color:#a07850;">or click to select</p>
-        <input type="file" id="picker" accept="image/*" style="display:none">
-        <button onclick="document.getElementById('picker').click()"
-          style="margin-top:20px;padding:14px 32px;background:#8B5E3C;color:#fff;border:none;border-radius:10px;font-size:18px;cursor:pointer;">
-          Select Photo
-        </button>
-        <div id="drop" style="margin-top:30px;border:2px dashed #D4915E;border-radius:16px;padding:40px;color:#a07850;">
-          or drag &amp; drop image here
+    <div style="padding:40px;font-family:Arial;color:#fff;background:#111;min-height:100vh;">
+      <div style="text-align:center;margin-bottom:30px;">
+        <div style="font-size:60px;">\u{1F9AB}\u{1F9AB}</div>
+        <h2 style="color:#D4915E;">Two Capybara Photos</h2>
+        <p style="color:#a07850;">Photo 1 \u{2192} OG image background &nbsp;\u{00B7}&nbsp; Photo 2 \u{2192} Icon</p>
+      </div>
+      <div style="display:flex;gap:30px;justify-content:center;flex-wrap:wrap;">
+        <div style="text-align:center;flex:1;max-width:400px;">
+          <h3 style="color:#E8B88A;">Photo 1 \u{2014} OG Image</h3>
+          <p style="color:#a07850;font-size:14px;">The wider/landscape one works best</p>
+          <input type="file" id="picker1" accept="image/*" style="display:none">
+          <button onclick="document.getElementById('picker1').click()"
+            style="margin:10px 0;padding:12px 28px;background:#8B5E3C;color:#fff;border:none;border-radius:10px;font-size:16px;cursor:pointer;">
+            Select Photo 1
+          </button>
+          <div id="drop1" style="margin-top:15px;border:2px dashed #D4915E;border-radius:16px;padding:30px;color:#a07850;min-height:100px;">
+            or drag &amp; drop here
+          </div>
+          <img id="thumb1" style="display:none;max-width:200px;margin-top:10px;border-radius:8px;border:2px solid #D4915E;">
+          <p id="label1" style="color:#a07850;font-size:13px;margin-top:5px;">waiting...</p>
+        </div>
+        <div style="text-align:center;flex:1;max-width:400px;">
+          <h3 style="color:#E8B88A;">Photo 2 \u{2014} Icon</h3>
+          <p style="color:#a07850;font-size:14px;">Square/portrait works best for the circle icon</p>
+          <input type="file" id="picker2" accept="image/*" style="display:none">
+          <button onclick="document.getElementById('picker2').click()"
+            style="margin:10px 0;padding:12px 28px;background:#8B5E3C;color:#fff;border:none;border-radius:10px;font-size:16px;cursor:pointer;">
+            Select Photo 2
+          </button>
+          <div id="drop2" style="margin-top:15px;border:2px dashed #D4915E;border-radius:16px;padding:30px;color:#a07850;min-height:100px;">
+            or drag &amp; drop here
+          </div>
+          <img id="thumb2" style="display:none;max-width:200px;margin-top:10px;border-radius:8px;border:2px solid #D4915E;">
+          <p id="label2" style="color:#a07850;font-size:13px;margin-top:5px;">waiting...</p>
         </div>
       </div>
     </div>
   `;
 
-  document.getElementById('picker').onchange = e => {
-    const file = e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = ev => {
-      const img = new Image();
-      img.onload = () => generateBoth(img);
-      img.src = ev.target.result;
-    };
-    reader.readAsDataURL(file);
-  };
+  document.getElementById('picker1').onchange = e => { if(e.target.files[0]) loadImage(e.target.files[0], 1); };
+  document.getElementById('picker2').onchange = e => { if(e.target.files[0]) loadImage(e.target.files[0], 2); };
 
-  const drop = document.getElementById('drop');
-  drop.ondragover = e => { e.preventDefault(); drop.style.background='rgba(212,145,94,0.1)'; };
-  drop.ondragleave = () => { drop.style.background=''; };
-  drop.ondrop = e => {
-    e.preventDefault();
-    const file = e.dataTransfer.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = ev => {
-      const img = new Image();
-      img.onload = () => generateBoth(img);
-      img.src = ev.target.result;
-    };
-    reader.readAsDataURL(file);
-  };
+  ['drop1','drop2'].forEach((id, i) => {
+    const el = document.getElementById(id);
+    el.ondragover = e => { e.preventDefault(); el.style.background='rgba(212,145,94,0.1)'; };
+    el.ondragleave = () => { el.style.background=''; };
+    el.ondrop = e => { e.preventDefault(); el.style.background=''; if(e.dataTransfer.files[0]) loadImage(e.dataTransfer.files[0], i+1); };
+  });
 };
 </script>
 </body>

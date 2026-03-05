@@ -11,6 +11,8 @@
     "homeUrl": "https://capybara-petter.vercel.app/",
     "splashImageUrl": "https://capybara-petter.vercel.app/icon.png",
     "splashBackgroundColor": "#1a0f05",
-    "requiredChains": ["eip155:8453"]
+    "requiredChains": ["eip155:8453"],
+    "primaryCategory": "games",
+    "tags": ["capybara", "petting", "onchain", "base", "leaderboard", "erc-8021"]
   }
 }
