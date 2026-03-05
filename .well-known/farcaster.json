@@ -13,6 +13,6 @@
     "splashBackgroundColor": "#1a0f05",
     "requiredChains": ["eip155:8453"],
     "primaryCategory": "games",
-    "tags": ["capybara", "petting", "onchain", "base", "leaderboard", "erc-8021"]
+    "tags": ["capybara", "petting", "onchain", "base", "leaderboard"]
   }
 }
