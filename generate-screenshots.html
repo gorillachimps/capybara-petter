@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Generate App Screenshots (1284×2778)</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Righteous&family=Inter:wght@400;500;600;700&display=swap');
+    body { font-family: 'Inter', sans-serif; background: #111; color: #fff; padding: 2rem; }
+    h1 { text-align: center; margin-bottom: 1rem; }
+    .controls { text-align: center; margin-bottom: 2rem; }
+    .controls button { padding: 0.75rem 2rem; font-size: 1rem; font-weight: 700; border: none; border-radius: 8px; cursor: pointer; margin: 0.5rem; color: #fff; }
+    .controls button.gen { background: #D4915E; }
+    .controls button.dl { background: #4CAF50; }
+    .preview-row { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; }
+    .preview-box { text-align: center; }
+    .preview-box h3 { margin-bottom: 0.5rem; color: #D4915E; }
+    .preview-box canvas { border: 1px solid #333; max-height: 500px; width: auto; }
+  </style>
+</head>
+<body>
+  <h1>📸 Capybara Petter — Screenshot Generator</h1>
+  <p style="text-align:center;color:#999;margin-bottom:1rem;">Generates 3 screenshots at 1284×2778 (iPhone 15 Pro Max portrait)</p>
+  <div class="controls">
+    <button class="gen" onclick="generateAll()">Generate All Screenshots</button>
+    <button class="dl" onclick="downloadAll()">Download All PNGs</button>
+  </div>
+  <div class="preview-row">
+    <div class="preview-box"><h3>1. Home / Pet</h3><canvas id="c1"></canvas></div>
+    <div class="preview-box"><h3>2. Leaderboard</h3><canvas id="c2"></canvas></div>
+    <div class="preview-box"><h3>3. Stats & Info</h3><canvas id="c3"></canvas></div>
+  </div>
+
+  <script>
+    const W = 1284, H = 2778;
+    const SCALE = 3; // effective device pixels
+
+    // Colors (dark theme)
+    const C = {
+      bg: '#1a0f05',
+      bgCard: 'rgba(30,18,8,0.92)',
+      warmPri: '#D4915E',
+      warmLight: '#E8B88A',
+      warmDark: '#A0673A',
+      orangePri: '#FF8C42',
+      orangeLight: '#FFB07A',
+      textPri: '#e8ddd0',
+      textMuted: '#9a8570',
+      navBg: 'rgba(26,15,5,0.95)',
+      navBorder: 'rgba(212,145,94,0.15)',
+      statBg: 'rgba(40,24,10,0.5)',
+      statBorder: 'rgba(212,145,94,0.1)',
+      lbRowBg: 'rgba(40,24,10,0.4)',
+      lbYouBg: 'rgba(212,145,94,0.15)',
+      lbYouBorder: 'rgba(212,145,94,0.2)',
+      milestoneBg: 'rgba(40,24,10,0.3)',
+      milestoneBorder: 'rgba(212,145,94,0.2)',
+      stepBg: 'rgba(40,24,10,0.3)',
+      stepBorder: 'rgba(212,145,94,0.08)',
+      gold: '#FFD700',
+      silver: '#C0C0C0',
+      bronze: '#CD7F32',
+      green: '#4CAF50',
+    };
+
+    function setupCanvas(id) {
+      const c = document.getElementById(id);
+      c.width = W; c.height = H;
+      c.style.width = (W / 2) + 'px';
+      const ctx = c.getContext('2d');
+      return ctx;
+    }
+
+    // Helpers
+    function roundRect(ctx, x, y, w, h, r) {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.lineTo(x + w - r, y);
+      ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+      ctx.lineTo(x + w, y + h - r);
+      ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+      ctx.lineTo(x + r, y + h);
+      ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+      ctx.lineTo(x, y + r);
+      ctx.quadraticCurveTo(x, y, x + r, y);
+      ctx.closePath();
+    }
+
+    function fillRoundRect(ctx, x, y, w, h, r, fill) {
+      roundRect(ctx, x, y, w, h, r);
+      ctx.fillStyle = fill;
+      ctx.fill();
+    }
+
+    function strokeRoundRect(ctx, x, y, w, h, r, stroke, lw = 2) {
+      roundRect(ctx, x, y, w, h, r);
+      ctx.strokeStyle = stroke;
+      ctx.lineWidth = lw;
+      ctx.stroke();
+    }
+
+    function drawText(ctx, text, x, y, { font = '400 32px Inter', color = C.textPri, align = 'left', baseline = 'top', maxW } = {}) {
+      ctx.font = font;
+      ctx.fillStyle = color;
+      ctx.textAlign = align;
+      ctx.textBaseline = baseline;
+      if (maxW) ctx.fillText(text, x, y, maxW);
+      else ctx.fillText(text, x, y);
+    }
+
+    function drawBg(ctx) {
+      // Background gradient
+      const g = ctx.createLinearGradient(0, 0, 0, H);
+      g.addColorStop(0, '#1a0f05');
+      g.addColorStop(0.5, '#1f1208');
+      g.addColorStop(1, '#1a0f05');
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, W, H);
+
+      // Subtle radial glows
+      const r1 = ctx.createRadialGradient(W * 0.2, H * 0.8, 0, W * 0.2, H * 0.8, W * 0.5);
+      r1.addColorStop(0, 'rgba(212,145,94,0.08)');
+      r1.addColorStop(1, 'transparent');
+      ctx.fillStyle = r1;
+      ctx.fillRect(0, 0, W, H);
+
+      const r2 = ctx.createRadialGradient(W * 0.8, H * 0.2, 0, W * 0.8, H * 0.2, W * 0.5);
+      r2.addColorStop(0, 'rgba(160,103,58,0.06)');
+      r2.addColorStop(1, 'transparent');
+      ctx.fillStyle = r2;
+      ctx.fillRect(0, 0, W, H);
+    }
+
+    function drawNavbar(ctx, title = 'Capybara Petter') {
+      // Nav background
+      fillRoundRect(ctx, 0, 0, W, 130, 0, C.navBg);
+      ctx.fillStyle = C.navBorder;
+      ctx.fillRect(0, 128, W, 2);
+
+      // Brand
+      drawText(ctx, '🐹', 48, 38, { font: '52px serif', align: 'left' });
+      const grad = ctx.createLinearGradient(120, 0, 420, 0);
+      grad.addColorStop(0, C.warmPri);
+      grad.addColorStop(1, C.warmLight);
+      drawText(ctx, title, 120, 40, { font: '700 44px Righteous', color: grad });
+
+      // Base badge
+      fillRoundRect(ctx, W - 330, 34, 280, 62, 31, 'rgba(212,145,94,0.1)');
+      strokeRoundRect(ctx, W - 330, 34, 280, 62, 31, 'rgba(212,145,94,0.25)', 2);
+      // Green dot
+      ctx.beginPath();
+      ctx.arc(W - 300, 65, 10, 0, Math.PI * 2);
+      ctx.fillStyle = C.warmPri;
+      ctx.fill();
+      drawText(ctx, 'Base Mainnet', W - 278, 48, { font: '600 30px Inter', color: C.warmPri });
+    }
+
+    function drawBottomNav(ctx, activeIdx = 0) {
+      const navH = 160;
+      const y = H - navH;
+      fillRoundRect(ctx, 0, y, W, navH, 0, C.navBg);
+      ctx.fillStyle = C.navBorder;
+      ctx.fillRect(0, y, W, 2);
+
+      const items = [
+        { icon: '🏠', label: 'Home' },
+        { icon: '🐾', label: 'Pet' },
+        { icon: '🏆', label: 'Leaderboard' },
+        { icon: 'ℹ️', label: 'Info' },
+      ];
+
+      const itemW = W / items.length;
+      items.forEach((item, i) => {
+        const cx = itemW * i + itemW / 2;
+        const isActive = i === activeIdx;
+        const col = isActive ? C.warmPri : C.textMuted;
+
+        if (isActive) {
+          fillRoundRect(ctx, cx - 60, y + 16, 120, 120, 16, 'rgba(212,145,94,0.08)');
+        }
+
+        drawText(ctx, item.icon, cx, y + 30, { font: '48px serif', align: 'center' });
+        drawText(ctx, item.label, cx, y + 100, { font: '600 26px Inter', color: col, align: 'center' });
+      });
+    }
+
+    function drawCard(ctx, x, y, w, h) {
+      fillRoundRect(ctx, x, y, w, h, 32, C.bgCard);
+      strokeRoundRect(ctx, x, y, w, h, 32, C.navBorder, 2);
+    }
+
+    function drawStatBox(ctx, x, y, w, h, label, value, valueSize = '72px') {
+      fillRoundRect(ctx, x, y, w, h, 24, C.statBg);
+      strokeRoundRect(ctx, x, y, w, h, 24, C.statBorder, 2);
+      drawText(ctx, label, x + w / 2, y + 16, { font: '600 24px Inter', color: C.textMuted, align: 'center' });
+      drawText(ctx, value, x + w / 2, y + 50, { font: `700 ${valueSize} Righteous`, color: C.warmPri, align: 'center' });
+    }
+
+    function drawButton(ctx, x, y, w, h, text, primary = true) {
+      const grad = ctx.createLinearGradient(x, y, x + w, y + h);
+      if (primary) {
+        grad.addColorStop(0, '#CC6A2E');
+        grad.addColorStop(0.5, '#FF8C42');
+        grad.addColorStop(1, '#FFB07A');
+      } else {
+        grad.addColorStop(0, '#6B4226');
+        grad.addColorStop(1, '#A0673A');
+      }
+      fillRoundRect(ctx, x, y, w, h, 24, grad);
+      drawText(ctx, text, x + w / 2, y + h / 2, { font: '700 38px Inter', color: '#fff', align: 'center', baseline: 'middle' });
+    }
+
+    // ========================
+    // SCREENSHOT 1: Home / Pet
+    // ========================
+    function drawScreenshot1(ctx) {
+      drawBg(ctx);
+      drawNavbar(ctx);
+
+      const cx = W / 2;
+      let y = 180;
+
+      // Capybara image circle
+      const capyR = 160;
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(cx, y + capyR, capyR, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(212,145,94,0.1)';
+      ctx.fill();
+      ctx.restore();
+      drawText(ctx, '🐹', cx, y + capyR - 50, { font: '200px serif', align: 'center' });
+      y += capyR * 2 + 40;
+
+      // Title
+      const titleGrad = ctx.createLinearGradient(cx - 300, y, cx + 300, y);
+      titleGrad.addColorStop(0, C.warmPri);
+      titleGrad.addColorStop(0.5, C.warmLight);
+      titleGrad.addColorStop(1, '#F0D0A8');
+      drawText(ctx, 'Capybara Petter', cx, y, { font: '700 96px Righteous', color: titleGrad, align: 'center' });
+      y += 110;
+      drawText(ctx, 'The onchain capybara petting competition on Base', cx, y, { font: '400 36px Inter', color: C.textMuted, align: 'center' });
+      y += 80;
+
+      // Wallet card
+      const cardX = 60, cardW = W - 120;
+      drawCard(ctx, cardX, y, cardW, 260);
+
+      // Connected badge
+      drawText(ctx, '🟢  capylover.base.eth', cx, y + 50, { font: '500 34px Inter', color: C.textMuted, align: 'center' });
+
+      // Pet button
+      const btnY = y + 110;
+      const btnGrad = ctx.createLinearGradient(cardX + 40, btnY, cardX + cardW - 40, btnY + 90);
+      btnGrad.addColorStop(0, '#CC6A2E');
+      btnGrad.addColorStop(0.5, '#FF8C42');
+      btnGrad.addColorStop(1, '#FFB07A');
+      fillRoundRect(ctx, cardX + 40, btnY, cardW - 80, 100, 24, btnGrad);
+      // Glow
+      ctx.shadowColor = 'rgba(255,140,66,0.4)';
+      ctx.shadowBlur = 30;
+      fillRoundRect(ctx, cardX + 40, btnY, cardW - 80, 100, 24, btnGrad);
+      ctx.shadowBlur = 0;
+      drawText(ctx, '🐾  PET THE CAPYBARA!', cx, btnY + 50, { font: '700 42px Inter', color: '#fff', align: 'center', baseline: 'middle' });
+      y += 300;
+
+      // Stats card
+      drawCard(ctx, cardX, y, cardW, 350);
+      drawText(ctx, '📊 Your Stats', cx, y + 35, { font: '700 42px Righteous', color: C.warmLight, align: 'center' });
+
+      const statW = (cardW - 120) / 2;
+      const statH = 120;
+      const statY = y + 100;
+      drawStatBox(ctx, cardX + 40, statY, statW, statH, 'YOUR PETS', '42');
+      drawStatBox(ctx, cardX + 60 + statW, statY, statW, statH, 'GLOBAL PETS', '1,847');
+
+      // Sponsored badge
+      drawText(ctx, '✅ Gas Sponsored', cx, statY + statH + 30, { font: '600 30px Inter', color: C.green, align: 'center' });
+      y += 390;
+
+      // Milestones card
+      drawCard(ctx, cardX, y, cardW, 350);
+      drawText(ctx, '🏅 Milestones', cx, y + 35, { font: '700 42px Righteous', color: C.warmLight, align: 'center' });
+
+      const milestones = [
+        { icon: '🐾', text: '10 Pets', achieved: true },
+        { icon: '💛', text: '25 Pets', achieved: true },
+        { icon: '⭐', text: '50 Pets', achieved: false },
+        { icon: '🔥', text: '100 Pets', achieved: false },
+        { icon: '💎', text: '500 Pets', achieved: false },
+        { icon: '👑', text: '1000 Pets', achieved: false },
+      ];
+      let mx = cardX + 50;
+      let my = y + 100;
+      milestones.forEach((m, i) => {
+        const mw = 180;
+        const mh = 70;
+        if (mx + mw > cardX + cardW - 40) {
+          mx = cardX + 50;
+          my += 90;
+        }
+        const bg = m.achieved ? 'rgba(255,140,66,0.1)' : C.milestoneBg;
+        const border = m.achieved ? C.orangePri : C.milestoneBorder;
+        const textCol = m.achieved ? C.orangeLight : C.textMuted;
+        fillRoundRect(ctx, mx, my, mw, mh, 35, bg);
+        strokeRoundRect(ctx, mx, my, mw, mh, 35, border, 2);
+        drawText(ctx, `${m.icon} ${m.text}`, mx + mw / 2, my + mh / 2, { font: '600 28px Inter', color: textCol, align: 'center', baseline: 'middle' });
+        mx += mw + 16;
+      });
+      y += 400;
+
+      // Streak card
+      drawCard(ctx, cardX, y, cardW, 220);
+      drawText(ctx, '🔥 Daily Streak', cx, y + 35, { font: '700 42px Righteous', color: C.warmLight, align: 'center' });
+      const streakStatW = (cardW - 160) / 4;
+      const streakY = y + 95;
+      drawStatBox(ctx, cardX + 40, streakY, streakStatW, 90, 'STREAK', '3', '50px');
+      drawStatBox(ctx, cardX + 60 + streakStatW, streakY, streakStatW, 90, 'BEST', '7', '50px');
+      drawStatBox(ctx, cardX + 80 + streakStatW * 2, streakY, streakStatW, 90, 'TODAY', '5', '50px');
+      drawStatBox(ctx, cardX + 100 + streakStatW * 3, streakY, streakStatW, 90, 'TOTAL', '42', '50px');
+
+      drawBottomNav(ctx, 1);
+    }
+
+    // ==========================
+    // SCREENSHOT 2: Leaderboard
+    // ==========================
+    function drawScreenshot2(ctx) {
+      drawBg(ctx);
+      drawNavbar(ctx);
+
+      const cx = W / 2;
+      const cardX = 60, cardW = W - 120;
+      let y = 170;
+
+      // Top Petter banner
+      const bannerGrad = ctx.createLinearGradient(cardX, y, cardX + cardW, y);
+      bannerGrad.addColorStop(0, 'rgba(255,140,66,0.7)');
+      bannerGrad.addColorStop(1, 'rgba(212,145,94,0.7)');
+      fillRoundRect(ctx, cardX, y, cardW, 100, 24, bannerGrad);
+      strokeRoundRect(ctx, cardX, y, cardW, 100, 24, 'rgba(255,152,0,0.2)', 2);
+      drawText(ctx, '👑  Top Petter: capyking.base.eth — 312 pets!', cx, y + 50, { font: '600 34px Inter', color: '#fff', align: 'center', baseline: 'middle' });
+      y += 140;
+
+      // Leaderboard card
+      drawCard(ctx, cardX, y, cardW, 1950);
+      drawText(ctx, '🏆 Leaderboard', cx, y + 40, { font: '700 52px Righteous', color: C.warmLight, align: 'center' });
+
+      // Table header
+      const tableX = cardX + 40;
+      const tableW = cardW - 80;
+      let rowY = y + 120;
+      drawText(ctx, 'RANK', tableX + 10, rowY, { font: '600 26px Inter', color: C.textMuted });
+      drawText(ctx, 'PETTER', tableX + 160, rowY, { font: '600 26px Inter', color: C.textMuted });
+      drawText(ctx, 'PETS', tableX + tableW - 10, rowY, { font: '600 26px Inter', color: C.textMuted, align: 'right' });
+      rowY += 60;
+
+      const leaderboard = [
+        { rank: 1, name: 'capyking.base.eth', pets: 312, medal: '🥇' },
+        { rank: 2, name: 'petlord.base.eth', pets: 287, medal: '🥈' },
+        { rank: 3, name: 'capyfan.base.eth', pets: 241, medal: '🥉' },
+        { rank: 4, name: 'onchainpetter.base.eth', pets: 198, isYou: false },
+        { rank: 5, name: 'basebuild.base.eth', pets: 176, isYou: false },
+        { rank: 6, name: 'capylover.base.eth', pets: 142, isYou: true },
+        { rank: 7, name: '0xA3f...8b2C', pets: 119, isYou: false },
+        { rank: 8, name: 'petmaster.base.eth', pets: 98, isYou: false },
+        { rank: 9, name: '0x7D9...F5bc', pets: 87, isYou: false },
+        { rank: 10, name: 'capyboss.base.eth', pets: 72, isYou: false },
+        { rank: 11, name: '0xB1c...9e3D', pets: 65, isYou: false },
+        { rank: 12, name: 'petpet.base.eth', pets: 58, isYou: false },
+        { rank: 13, name: '0xF4e...2a1B', pets: 42, isYou: false },
+        { rank: 14, name: 'capyzilla.base.eth', pets: 37, isYou: false },
+        { rank: 15, name: '0x3C8...6d4E', pets: 29, isYou: false },
+      ];
+
+      leaderboard.forEach((entry) => {
+        const rowH = 90;
+        const bg = entry.isYou ? C.lbYouBg : C.lbRowBg;
+        fillRoundRect(ctx, tableX, rowY, tableW, rowH, 16, bg);
+        if (entry.isYou) {
+          strokeRoundRect(ctx, tableX, rowY, tableW, rowH, 16, C.lbYouBorder, 2);
+        }
+
+        // Rank
+        let rankColor = C.textPri;
+        if (entry.rank === 1) rankColor = C.gold;
+        else if (entry.rank === 2) rankColor = C.silver;
+        else if (entry.rank === 3) rankColor = C.bronze;
+
+        if (entry.medal) {
+          drawText(ctx, entry.medal, tableX + 55, rowY + rowH / 2, { font: '44px serif', align: 'center', baseline: 'middle' });
+        } else {
+          drawText(ctx, `#${entry.rank}`, tableX + 55, rowY + rowH / 2, { font: '600 34px Inter', color: rankColor, align: 'center', baseline: 'middle' });
+        }
+
+        // Name
+        const nameCol = entry.name.startsWith('0x') ? '#999' : C.warmLight;
+        const nameFont = entry.name.startsWith('0x') ? '400 32px "SF Mono", monospace' : '500 34px Inter';
+        let displayName = entry.name;
+        if (entry.isYou) displayName += '  (you)';
+        drawText(ctx, displayName, tableX + 130, rowY + rowH / 2, { font: nameFont, color: nameCol, baseline: 'middle' });
+
+        // Pets
+        drawText(ctx, entry.pets.toLocaleString(), tableX + tableW - 20, rowY + rowH / 2, { font: '700 40px Righteous', color: C.warmPri, align: 'right', baseline: 'middle' });
+
+        rowY += rowH + 12;
+      });
+
+      // Share buttons at bottom of card
+      rowY += 20;
+      const btnW = (tableW - 30) / 3;
+      drawButton(ctx, tableX, rowY, btnW, 80, '📋 Copy Link', false);
+      fillRoundRect(ctx, tableX + btnW + 15, rowY, btnW, 80, 24, 'rgba(138,99,210,0.15)');
+      strokeRoundRect(ctx, tableX + btnW + 15, rowY, btnW, 80, 24, 'rgba(138,99,210,0.3)', 2);
+      drawText(ctx, '💜 Share to Feed', tableX + btnW + 15 + btnW / 2, rowY + 40, { font: '600 28px Inter', color: '#8B63D2', align: 'center', baseline: 'middle' });
+      fillRoundRect(ctx, tableX + (btnW + 15) * 2, rowY, btnW, 80, 24, 'rgba(255,255,255,0.05)');
+      strokeRoundRect(ctx, tableX + (btnW + 15) * 2, rowY, btnW, 80, 24, 'rgba(255,255,255,0.15)', 2);
+      drawText(ctx, '𝕏 Share', tableX + (btnW + 15) * 2 + btnW / 2, rowY + 40, { font: '600 28px Inter', color: '#fff', align: 'center', baseline: 'middle' });
+
+      drawBottomNav(ctx, 2);
+    }
+
+    // ===============================
+    // SCREENSHOT 3: Stats & How It Works
+    // ===============================
+    function drawScreenshot3(ctx) {
+      drawBg(ctx);
+      drawNavbar(ctx);
+
+      const cx = W / 2;
+      const cardX = 60, cardW = W - 120;
+      let y = 170;
+
+      // How It Works card
+      drawCard(ctx, cardX, y, cardW, 600);
+      drawText(ctx, '📖 How It Works', cx, y + 40, { font: '700 52px Righteous', color: C.warmLight, align: 'center' });
+
+      const steps = [
+        { icon: '🔗', num: 'STEP 1', text: 'Connect your\nwallet' },
+        { icon: '🐾', num: 'STEP 2', text: 'Pet the\ncapybara' },
+        { icon: '🏆', num: 'STEP 3', text: 'Climb the\nleaderboard' },
+      ];
+      const stepW = (cardW - 120) / 3;
+      const stepH = 380;
+      const stepY = y + 120;
+      steps.forEach((s, i) => {
+        const sx = cardX + 40 + i * (stepW + 20);
+        fillRoundRect(ctx, sx, stepY, stepW, stepH, 24, C.stepBg);
+        strokeRoundRect(ctx, sx, stepY, stepW, stepH, 24, C.stepBorder, 2);
+        drawText(ctx, s.icon, sx + stepW / 2, stepY + 50, { font: '80px serif', align: 'center' });
+        drawText(ctx, s.num, sx + stepW / 2, stepY + 170, { font: '700 24px Inter', color: C.orangePri, align: 'center' });
+        s.text.split('\n').forEach((line, li) => {
+          drawText(ctx, line, sx + stepW / 2, stepY + 220 + li * 40, { font: '400 30px Inter', color: C.textMuted, align: 'center' });
+        });
+      });
+      y += 650;
+
+      // Set Name card
+      drawCard(ctx, cardX, y, cardW, 400);
+      drawText(ctx, '✏️ Set Petter Name', cx, y + 40, { font: '700 42px Righteous', color: C.warmLight, align: 'center' });
+      // Input
+      fillRoundRect(ctx, cardX + 40, y + 110, cardW - 80, 90, 16, 'rgba(20,12,5,0.8)');
+      strokeRoundRect(ctx, cardX + 40, y + 110, cardW - 80, 90, 16, 'rgba(212,145,94,0.2)', 2);
+      drawText(ctx, 'capylover', cardX + 70, y + 140, { font: '400 36px Inter', color: C.textPri });
+      // Button
+      drawButton(ctx, cardX + 40, y + 230, cardW - 80, 90, '💾 SET NAME ON-CHAIN', false);
+      drawText(ctx, '✅ Gas Sponsored', cx, y + 355, { font: '600 28px Inter', color: C.green, align: 'center' });
+      y += 440;
+
+      // Contract Info card
+      drawCard(ctx, cardX, y, cardW, 350);
+      drawText(ctx, '📋 Contract Info', cx, y + 40, { font: '700 42px Righteous', color: C.warmLight, align: 'center' });
+
+      drawText(ctx, 'CONTRACT', cx, y + 110, { font: '600 24px Inter', color: C.textMuted, align: 'center' });
+      drawText(ctx, '0xe09C6b3A...883a9Ba', cx, y + 150, { font: '400 32px "SF Mono", monospace', color: '#999', align: 'center' });
+
+      fillRoundRect(ctx, cardX + 60, y + 200, cardW - 120, 70, 12, C.stepBg);
+      strokeRoundRect(ctx, cardX + 60, y + 200, cardW - 120, 70, 12, C.stepBorder, 2);
+      drawText(ctx, '🔍  View on BaseScan', cx, y + 235, { font: '500 30px Inter', color: C.warmPri, align: 'center', baseline: 'middle' });
+
+      drawText(ctx, 'ERC-8021 Builder Attribution • bc_4j84s978', cx, y + 310, { font: '400 26px Inter', color: 'rgba(154,133,112,0.4)', align: 'center' });
+      y += 400;
+
+      // About card
+      drawCard(ctx, cardX, y, cardW, 500);
+      drawText(ctx, '🐾 About', cx, y + 40, { font: '700 42px Righteous', color: C.warmLight, align: 'center' });
+
+      const aboutLines = [
+        'Capybara Petter is an onchain petting',
+        'competition built on Base. Every pet is',
+        'recorded as a transaction on the blockchain.',
+        '',
+        'Compete with other petters to climb the',
+        'leaderboard, earn milestones, and become',
+        'the ultimate Capybara Petter!',
+        '',
+        'All transactions are gas-sponsored through',
+        'the Base Paymaster — no fees to play!'
+      ];
+      let lineY = y + 110;
+      aboutLines.forEach(line => {
+        if (line) {
+          drawText(ctx, line, cx, lineY, { font: '400 32px Inter', color: C.textMuted, align: 'center' });
+        }
+        lineY += 40;
+      });
+
+      drawBottomNav(ctx, 3);
+    }
+
+    function generateAll() {
+      drawScreenshot1(setupCanvas('c1'));
+      drawScreenshot2(setupCanvas('c2'));
+      drawScreenshot3(setupCanvas('c3'));
+    }
+
+    function downloadCanvas(id, filename) {
+      const c = document.getElementById(id);
+      const link = document.createElement('a');
+      link.download = filename;
+      link.href = c.toDataURL('image/png');
+      link.click();
+    }
+
+    function downloadAll() {
+      downloadCanvas('c1', 'screenshot-1.png');
+      setTimeout(() => downloadCanvas('c2', 'screenshot-2.png'), 300);
+      setTimeout(() => downloadCanvas('c3', 'screenshot-3.png'), 600);
+    }
+
+    // Auto-generate on load
+    window.addEventListener('load', () => setTimeout(generateAll, 500));
+  </script>
+</body>
+</html>

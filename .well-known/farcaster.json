@@ -13,6 +13,18 @@
     "splashBackgroundColor": "#1a0f05",
     "requiredChains": ["eip155:8453"],
     "primaryCategory": "games",
-    "tags": ["capybara", "petting", "onchain", "base", "leaderboard"]
+    "tags": ["capybara", "petting", "onchain", "base", "leaderboard"],
+    "subtitle": "Pet capybaras onchain on Base",
+    "description": "Compete to become the top capybara petter! Every pet is recorded onchain on Base. Climb the leaderboard, earn milestones, and build your petting streak.",
+    "tagline": "Pet capybaras onchain on Base",
+    "heroImageUrl": "https://capybara-petter.vercel.app/og-image.png",
+    "ogTitle": "Capybara Petter",
+    "ogDescription": "Compete to become the top capybara petter! Every pet is an onchain transaction on Base.",
+    "ogImageUrl": "https://capybara-petter.vercel.app/og-image.png",
+    "screenshotUrls": [
+      "https://capybara-petter.vercel.app/screenshot-1.png",
+      "https://capybara-petter.vercel.app/screenshot-2.png",
+      "https://capybara-petter.vercel.app/screenshot-3.png"
+    ]
   }
 }
