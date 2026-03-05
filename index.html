@@ -765,16 +765,77 @@
       container.innerHTML = html;
     }
 
+    // ==== EIP-6963 MULTI-WALLET DISCOVERY ====
+    const discoveredWallets = [];
+    window.addEventListener('eip6963:announceProvider', (event) => {
+      const { info, provider } = event.detail;
+      // Avoid duplicates
+      if (!discoveredWallets.find(w => w.info.uuid === info.uuid)) {
+        discoveredWallets.push({ info, provider });
+      }
+    });
+    // Request wallet announcements
+    window.dispatchEvent(new Event('eip6963:requestProvider'));
+
     // ==== PROVIDER ====
     async function getProvider() {
       if (window.__fcReady) await window.__fcReady;
-      return window.__ethProvider || window.ethereum || null;
+      // Farcaster SDK provider takes priority
+      if (window.__ethProvider && window.__ethProvider !== window.ethereum) return window.__ethProvider;
+      // EIP-6963: if wallets discovered, prefer Coinbase Wallet
+      if (discoveredWallets.length > 0) {
+        const coinbase = discoveredWallets.find(w =>
+          w.info.name.toLowerCase().includes('coinbase') ||
+          w.info.rdns === 'com.coinbase.wallet'
+        );
+        if (coinbase) return coinbase.provider;
+        return discoveredWallets[0].provider;
+      }
+      // Fallback: check for Coinbase Wallet extension directly
+      if (window.coinbaseWalletExtension) return window.coinbaseWalletExtension;
+      return window.ethereum || null;
+    }
+
+    function showWalletPicker() {
+      if (discoveredWallets.length <= 1) return null;
+      return new Promise((resolve) => {
+        const overlay = document.createElement('div');
+        overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);z-index:1000;display:flex;align-items:center;justify-content:center;';
+        const modal = document.createElement('div');
+        modal.style.cssText = 'background:var(--bg-card,#1e1208);border:1px solid var(--nav-border,rgba(212,145,94,0.15));border-radius:16px;padding:1.5rem;max-width:360px;width:90%;';
+        modal.innerHTML = '<h3 style="font-family:Righteous;color:var(--warm-light,#E8B88A);text-align:center;margin-bottom:1rem;">Choose Wallet</h3>';
+        discoveredWallets.forEach((w, i) => {
+          const btn = document.createElement('button');
+          btn.style.cssText = 'display:flex;align-items:center;gap:0.75rem;width:100%;padding:0.75rem 1rem;margin:0.4rem 0;border-radius:12px;background:var(--bg-stat,rgba(40,24,10,0.5));border:1px solid var(--stat-border,rgba(212,145,94,0.1));color:var(--text-primary,#e8ddd0);cursor:pointer;font-size:0.95rem;font-weight:600;min-height:52px;';
+          const icon = w.info.icon ? `<img src="${w.info.icon}" style="width:32px;height:32px;border-radius:8px;">` : '';
+          btn.innerHTML = `${icon}<span>${w.info.name}</span>`;
+          btn.onclick = () => { overlay.remove(); resolve(w.provider); };
+          modal.appendChild(btn);
+        });
+        const cancel = document.createElement('button');
+        cancel.textContent = 'Cancel';
+        cancel.style.cssText = 'width:100%;margin-top:0.75rem;background:transparent;border:1px solid var(--disconnect-border,rgba(255,100,100,0.3));color:#ff6b6b;padding:0.6rem;border-radius:8px;cursor:pointer;font-size:0.85rem;min-height:44px;';
+        cancel.onclick = () => { overlay.remove(); resolve(null); };
+        modal.appendChild(cancel);
+        overlay.appendChild(modal);
+        overlay.onclick = (e) => { if (e.target === overlay) { overlay.remove(); resolve(null); } };
+        document.body.appendChild(overlay);
+      });
     }
 
     // ==== WALLET ====
     async function connectWallet() {
-      const provider = await getProvider();
+      let provider;
+      // If multiple wallets detected via EIP-6963, show picker
+      if (discoveredWallets.length > 1) {
+        provider = await showWalletPicker();
+        if (!provider) return; // user cancelled
+      } else {
+        provider = await getProvider();
+      }
       if (!provider) { showStatus('No wallet detected. Please use a wallet-enabled browser or app.', 'error'); return; }
+      // Store chosen provider for subsequent calls
+      window.__ethProvider = provider;
       try {
         const accounts = await provider.request({ method: 'eth_requestAccounts' });
         userAddress = accounts[0];
