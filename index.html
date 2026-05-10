@@ -10,9 +10,13 @@
   <meta property="og:description" content="The onchain capybara petting competition. Pet capybaras, climb the leaderboard, become the Top Petter.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://capybara-petter.vercel.app/">
+  <meta property="og:image" content="https://capybara-petter.vercel.app/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Capybara Petter - Pet Capybaras on Base">
   <meta name="twitter:description" content="The onchain capybara petting competition on Base.">
+  <meta name="twitter:image" content="https://capybara-petter.vercel.app/og-image.png">
   <meta name="description" content="Pet capybaras onchain. Compete to become the Top Capybara Petter on Base. Powered by ERC-8021.">
 
   <!-- Farcaster Mini App embed -->
@@ -27,88 +31,95 @@
   <link rel="icon" href="capy-hat.png" type="image/png">
 
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Righteous&family=Inter:wght@400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..800,0..100;1,9..144,300..800,0..100&family=DM+Sans:opsz,wght@9..40,300..700&display=swap');
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     :root, [data-theme="dark"] {
       --warm-primary: #D4915E; --warm-light: #E8B88A; --warm-dark: #A0673A; --warm-darker: #6B4226;
       --orange-primary: #FF8C42; --orange-light: #FFB07A; --orange-dark: #CC6A2E;
-      --bg-dark: #1a0f05; --bg-card: rgba(30, 18, 8, 0.85); --text-primary: #e8ddd0; --text-muted: #9a8570;
-      --bg-nav: rgba(26,15,5,0.9); --nav-border: rgba(212,145,94,0.15);
-      --bg-input: rgba(20,12,5,0.8); --bg-stat: rgba(40,24,10,0.5); --stat-border: rgba(212,145,94,0.1);
-      --bg-step: rgba(40,24,10,0.3); --step-border: rgba(212,145,94,0.08);
-      --bg-contract: rgba(40,24,10,0.3); --contract-border: rgba(212,145,94,0.08);
-      --footer-border: rgba(212,145,94,0.1); --vine-color: rgba(107,66,38,0.08);
-      --lb-row-bg: rgba(40,24,10,0.4); --lb-you-bg: rgba(212,145,94,0.15); --lb-you-border: rgba(212,145,94,0.2);
-      --milestone-bg: rgba(40,24,10,0.3); --milestone-border: rgba(212,145,94,0.2);
-      --toast-bg: var(--warm-dark); --copy-border: rgba(212,145,94,0.2);
-      --share-border: rgba(212,145,94,0.2); --addr-color: #999;
-      --gradient-body-start: #1a0f05; --gradient-body-mid: #1f1208; --gradient-body-end: #1a0f05;
-      --glow-1: rgba(212,145,94,0.08); --glow-2: rgba(160,103,58,0.06); --glow-3: rgba(30,18,8,0.15);
-      --fog-1: rgba(212,145,94,0.03); --fog-2: rgba(160,103,58,0.03);
-      --ring-color: rgba(255,140,66,0.8); --error-bg: rgba(61,0,0,0.8); --error-border: rgba(255,107,107,0.25);
-      --success-bg: rgba(50,40,20,0.8); --success-border: rgba(212,145,94,0.25);
-      --info-bg: rgba(40,30,15,0.8); --info-border: rgba(221,200,160,0.15);
-      --top-banner-bg: linear-gradient(135deg, rgba(255,140,66,0.7), rgba(212,145,94,0.7));
+      --water-primary: #5BA8B5; --water-light: #8BC5CE; --water-deep: #2E6873;
+      --yuzu: #F5C84B;
+      --bg-dark: #0e1518; --bg-card: rgba(20, 32, 38, 0.85); --text-primary: #e8ddd0; --text-muted: #9a8570;
+      --bg-nav: rgba(14,21,24,0.9); --nav-border: rgba(91,168,181,0.15);
+      --bg-input: rgba(15,25,28,0.8); --bg-stat: rgba(25,40,46,0.55); --stat-border: rgba(91,168,181,0.12);
+      --bg-step: rgba(25,40,46,0.35); --step-border: rgba(91,168,181,0.1);
+      --bg-contract: rgba(25,40,46,0.35); --contract-border: rgba(91,168,181,0.1);
+      --footer-border: rgba(91,168,181,0.12); --pond-color: rgba(91,168,181,0.1);
+      --lb-row-bg: rgba(25,40,46,0.45); --lb-you-bg: rgba(212,145,94,0.15); --lb-you-border: rgba(212,145,94,0.25);
+      --milestone-bg: rgba(25,40,46,0.35); --milestone-border: rgba(91,168,181,0.22);
+      --toast-bg: var(--warm-dark); --copy-border: rgba(91,168,181,0.22);
+      --share-border: rgba(91,168,181,0.22); --addr-color: #99a;
+      --gradient-body-start: #0e1518; --gradient-body-mid: #112226; --gradient-body-end: #0e1518;
+      --glow-1: rgba(91,168,181,0.1); --glow-2: rgba(212,145,94,0.06); --glow-3: rgba(20,32,38,0.18);
+      --steam-1: rgba(180,210,215,0.04); --steam-2: rgba(212,145,94,0.03);
+      --ring-color: rgba(139,197,206,0.85); --error-bg: rgba(61,0,0,0.8); --error-border: rgba(255,107,107,0.25);
+      --success-bg: rgba(35,55,50,0.8); --success-border: rgba(91,168,181,0.3);
+      --info-bg: rgba(25,40,46,0.8); --info-border: rgba(180,210,215,0.18);
+      --top-banner-bg: linear-gradient(135deg, rgba(255,140,66,0.65), rgba(91,168,181,0.65));
       --disconnect-border: rgba(255,100,100,0.3); --btn-disabled-bg: #2a2a2a;
     }
     [data-theme="light"] {
       --warm-primary: #A0673A; --warm-light: #8B5E3C; --warm-dark: #6B4226; --warm-darker: #4A2E1A;
       --orange-primary: #CC6A2E; --orange-light: #E8944A; --orange-dark: #A05020;
-      --bg-dark: #FFF8F0; --bg-card: rgba(255, 245, 235, 0.95); --text-primary: #2c1810; --text-muted: #7a6050;
-      --bg-nav: rgba(255,248,240,0.95); --nav-border: rgba(160,103,58,0.2);
-      --bg-input: rgba(255,245,235,0.9); --bg-stat: rgba(255,240,225,0.8); --stat-border: rgba(160,103,58,0.15);
-      --bg-step: rgba(255,240,225,0.6); --step-border: rgba(160,103,58,0.12);
-      --bg-contract: rgba(255,240,225,0.5); --contract-border: rgba(160,103,58,0.12);
-      --footer-border: rgba(160,103,58,0.15); --vine-color: rgba(107,66,38,0.04);
-      --lb-row-bg: rgba(255,240,225,0.6); --lb-you-bg: rgba(212,145,94,0.12); --lb-you-border: rgba(212,145,94,0.25);
-      --milestone-bg: rgba(255,240,225,0.5); --milestone-border: rgba(160,103,58,0.25);
-      --toast-bg: #6B4226; --copy-border: rgba(160,103,58,0.25);
-      --share-border: rgba(160,103,58,0.25); --addr-color: #666;
-      --gradient-body-start: #FFF8F0; --gradient-body-mid: #FFF0E0; --gradient-body-end: #FFF8F0;
-      --glow-1: rgba(212,145,94,0.06); --glow-2: rgba(160,103,58,0.04); --glow-3: rgba(255,245,235,0.1);
-      --fog-1: rgba(212,145,94,0.02); --fog-2: rgba(160,103,58,0.02);
-      --ring-color: rgba(204,106,46,0.6); --error-bg: rgba(255,230,230,0.9); --error-border: rgba(200,50,50,0.25);
-      --success-bg: rgba(230,245,230,0.9); --success-border: rgba(80,160,80,0.25);
-      --info-bg: rgba(240,235,225,0.9); --info-border: rgba(160,140,110,0.2);
-      --top-banner-bg: linear-gradient(135deg, rgba(212,145,94,0.25), rgba(160,103,58,0.2));
-      --disconnect-border: rgba(200,80,80,0.3); --btn-disabled-bg: #ddd;
+      --water-primary: #4A8A95; --water-light: #7BB3BD; --water-deep: #1F4E59;
+      --yuzu: #E0AC2C;
+      --bg-dark: #EAF4F5; --bg-card: rgba(255, 252, 245, 0.95); --text-primary: #1c2a2e; --text-muted: #5e7176;
+      --bg-nav: rgba(234,244,245,0.92); --nav-border: rgba(74,138,149,0.22);
+      --bg-input: rgba(255,252,245,0.92); --bg-stat: rgba(220,236,238,0.8); --stat-border: rgba(74,138,149,0.18);
+      --bg-step: rgba(220,236,238,0.6); --step-border: rgba(74,138,149,0.15);
+      --bg-contract: rgba(220,236,238,0.5); --contract-border: rgba(74,138,149,0.15);
+      --footer-border: rgba(74,138,149,0.18); --pond-color: rgba(74,138,149,0.06);
+      --lb-row-bg: rgba(220,236,238,0.65); --lb-you-bg: rgba(212,145,94,0.14); --lb-you-border: rgba(212,145,94,0.3);
+      --milestone-bg: rgba(220,236,238,0.5); --milestone-border: rgba(74,138,149,0.3);
+      --toast-bg: #6B4226; --copy-border: rgba(74,138,149,0.3);
+      --share-border: rgba(74,138,149,0.3); --addr-color: #5b6e72;
+      --gradient-body-start: #EAF4F5; --gradient-body-mid: #DDEDEF; --gradient-body-end: #EAF4F5;
+      --glow-1: rgba(74,138,149,0.08); --glow-2: rgba(212,145,94,0.05); --glow-3: rgba(220,236,238,0.18);
+      --steam-1: rgba(180,210,215,0.05); --steam-2: rgba(212,145,94,0.03);
+      --ring-color: rgba(74,138,149,0.65); --error-bg: rgba(255,230,230,0.9); --error-border: rgba(200,50,50,0.25);
+      --success-bg: rgba(225,240,225,0.9); --success-border: rgba(74,138,149,0.3);
+      --info-bg: rgba(232,242,243,0.9); --info-border: rgba(120,150,155,0.25);
+      --top-banner-bg: linear-gradient(135deg, rgba(212,145,94,0.22), rgba(74,138,149,0.22));
+      --disconnect-border: rgba(200,80,80,0.3); --btn-disabled-bg: #cdd8d9;
     }
     @media (prefers-color-scheme: light) {
       :root:not([data-theme="dark"]) {
         --warm-primary: #A0673A; --warm-light: #8B5E3C; --warm-dark: #6B4226; --warm-darker: #4A2E1A;
         --orange-primary: #CC6A2E; --orange-light: #E8944A; --orange-dark: #A05020;
-        --bg-dark: #FFF8F0; --bg-card: rgba(255, 245, 235, 0.95); --text-primary: #2c1810; --text-muted: #7a6050;
-        --bg-nav: rgba(255,248,240,0.95); --nav-border: rgba(160,103,58,0.2);
-        --bg-input: rgba(255,245,235,0.9); --bg-stat: rgba(255,240,225,0.8); --stat-border: rgba(160,103,58,0.15);
-        --bg-step: rgba(255,240,225,0.6); --step-border: rgba(160,103,58,0.12);
-        --bg-contract: rgba(255,240,225,0.5); --contract-border: rgba(160,103,58,0.12);
-        --footer-border: rgba(160,103,58,0.15); --vine-color: rgba(107,66,38,0.04);
-        --lb-row-bg: rgba(255,240,225,0.6); --lb-you-bg: rgba(212,145,94,0.12); --lb-you-border: rgba(212,145,94,0.25);
-        --milestone-bg: rgba(255,240,225,0.5); --milestone-border: rgba(160,103,58,0.25);
-        --toast-bg: #6B4226; --copy-border: rgba(160,103,58,0.25);
-        --share-border: rgba(160,103,58,0.25); --addr-color: #666;
-        --gradient-body-start: #FFF8F0; --gradient-body-mid: #FFF0E0; --gradient-body-end: #FFF8F0;
-        --glow-1: rgba(212,145,94,0.06); --glow-2: rgba(160,103,58,0.04); --glow-3: rgba(255,245,235,0.1);
-        --fog-1: rgba(212,145,94,0.02); --fog-2: rgba(160,103,58,0.02);
-        --ring-color: rgba(204,106,46,0.6); --error-bg: rgba(255,230,230,0.9); --error-border: rgba(200,50,50,0.25);
-        --success-bg: rgba(230,245,230,0.9); --success-border: rgba(80,160,80,0.25);
-        --info-bg: rgba(240,235,225,0.9); --info-border: rgba(160,140,110,0.2);
-        --top-banner-bg: linear-gradient(135deg, rgba(212,145,94,0.25), rgba(160,103,58,0.2));
-        --disconnect-border: rgba(200,80,80,0.3); --btn-disabled-bg: #ddd;
+        --water-primary: #4A8A95; --water-light: #7BB3BD; --water-deep: #1F4E59;
+        --yuzu: #E0AC2C;
+        --bg-dark: #EAF4F5; --bg-card: rgba(255, 252, 245, 0.95); --text-primary: #1c2a2e; --text-muted: #5e7176;
+        --bg-nav: rgba(234,244,245,0.92); --nav-border: rgba(74,138,149,0.22);
+        --bg-input: rgba(255,252,245,0.92); --bg-stat: rgba(220,236,238,0.8); --stat-border: rgba(74,138,149,0.18);
+        --bg-step: rgba(220,236,238,0.6); --step-border: rgba(74,138,149,0.15);
+        --bg-contract: rgba(220,236,238,0.5); --contract-border: rgba(74,138,149,0.15);
+        --footer-border: rgba(74,138,149,0.18); --pond-color: rgba(74,138,149,0.06);
+        --lb-row-bg: rgba(220,236,238,0.65); --lb-you-bg: rgba(212,145,94,0.14); --lb-you-border: rgba(212,145,94,0.3);
+        --milestone-bg: rgba(220,236,238,0.5); --milestone-border: rgba(74,138,149,0.3);
+        --toast-bg: #6B4226; --copy-border: rgba(74,138,149,0.3);
+        --share-border: rgba(74,138,149,0.3); --addr-color: #5b6e72;
+        --gradient-body-start: #EAF4F5; --gradient-body-mid: #DDEDEF; --gradient-body-end: #EAF4F5;
+        --glow-1: rgba(74,138,149,0.08); --glow-2: rgba(212,145,94,0.05); --glow-3: rgba(220,236,238,0.18);
+        --steam-1: rgba(180,210,215,0.05); --steam-2: rgba(212,145,94,0.03);
+        --ring-color: rgba(74,138,149,0.65); --error-bg: rgba(255,230,230,0.9); --error-border: rgba(200,50,50,0.25);
+        --success-bg: rgba(225,240,225,0.9); --success-border: rgba(74,138,149,0.3);
+        --info-bg: rgba(232,242,243,0.9); --info-border: rgba(120,150,155,0.25);
+        --top-banner-bg: linear-gradient(135deg, rgba(212,145,94,0.22), rgba(74,138,149,0.22));
+        --disconnect-border: rgba(200,80,80,0.3); --btn-disabled-bg: #cdd8d9;
       }
     }
-    body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg-dark); color: var(--text-primary); min-height: 100vh; overflow-x: hidden; position: relative; }
+    body { font-family: 'DM Sans', -apple-system, sans-serif; background: var(--bg-dark); color: var(--text-primary); min-height: 100vh; overflow-x: hidden; position: relative; font-feature-settings: 'ss01' on, 'cv11' on; letter-spacing: -0.005em; }
     body::before { content: ''; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(ellipse at 20% 80%, var(--glow-1) 0%, transparent 50%), radial-gradient(ellipse at 80% 20%, var(--glow-2) 0%, transparent 50%), radial-gradient(ellipse at 50% 50%, var(--glow-3) 0%, transparent 70%), linear-gradient(180deg, var(--gradient-body-start) 0%, var(--gradient-body-mid) 50%, var(--gradient-body-end) 100%); z-index: -2; }
-    body::after { content: ''; position: fixed; top: 0; left: -50%; right: -50%; bottom: 0; background: radial-gradient(ellipse at 30% 70%, var(--fog-1) 0%, transparent 50%), radial-gradient(ellipse at 70% 30%, var(--fog-2) 0%, transparent 50%); animation: fogDrift 20s ease-in-out infinite; z-index: -1; }
-    @keyframes fogDrift { 0%,100% { transform: translateX(0); } 50% { transform: translateX(10%); } }
+    body::after { content: ''; position: fixed; top: 0; left: -50%; right: -50%; bottom: 0; background: radial-gradient(ellipse at 30% 70%, var(--steam-1) 0%, transparent 50%), radial-gradient(ellipse at 70% 30%, var(--steam-2) 0%, transparent 50%); animation: steamRise 22s ease-in-out infinite; z-index: -1; }
+    @keyframes steamRise { 0%,100% { transform: translate(0,0); } 50% { transform: translate(8%, -2%); } }
 
     .navbar { position: sticky; top: 0; z-index: 50; width: 100%; padding: 0.75rem 1.5rem; background: var(--bg-nav); backdrop-filter: blur(20px); border-bottom: 1px solid var(--nav-border); display: flex; align-items: center; justify-content: space-between; }
     .nav-brand { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; }
     .nav-brand .logo { width: 28px; height: 28px; object-fit: contain; }
-    .nav-brand .brand-text { font-family: 'Righteous', cursive; font-size: 1.2rem; background: linear-gradient(135deg, var(--warm-primary), var(--warm-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .nav-brand .brand-text { font-family: 'Fraunces', serif; font-style: italic; font-weight: 500; font-variation-settings: 'SOFT' 80, 'opsz' 24; font-size: 1.15rem; color: var(--text-primary); letter-spacing: -0.02em; }
+    .nav-brand .brand-dot { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(--water-light); margin: 0 0.5rem; vertical-align: middle; }
     .nav-right { display: flex; align-items: center; gap: 0.75rem; }
-    .network-badge { display: flex; align-items: center; gap: 0.4rem; padding: 0.35rem 0.75rem; border-radius: 20px; background: rgba(212,145,94,0.1); border: 1px solid rgba(212,145,94,0.25); font-size: 0.75rem; font-weight: 600; color: var(--warm-primary); }
-    .network-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--warm-primary); animation: pulse 2s ease-in-out infinite; }
+    .network-badge { display: flex; align-items: center; gap: 0.4rem; padding: 0.3rem 0.7rem; border-radius: 999px; background: transparent; border: 1px solid var(--nav-border); font-size: 0.72rem; font-weight: 400; color: var(--text-muted); letter-spacing: 0.01em; }
+    .network-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--water-light); animation: pulse 2s ease-in-out infinite; }
     @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
     .nav-link { color: var(--text-muted); text-decoration: none; font-size: 0.8rem; font-weight: 500; padding: 0.35rem 0.6rem; border-radius: 6px; transition: all 0.2s; min-height: 44px; display: inline-flex; align-items: center; }
     .nav-link:hover { color: var(--warm-primary); background: rgba(212,145,94,0.1); }
@@ -118,120 +129,138 @@
 
     .main-content { display: flex; flex-direction: column; align-items: center; padding: 1.5rem 1rem 2rem; max-width: 560px; margin: 0 auto; }
     #particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 100; }
-    .vine-left, .vine-right { position: fixed; top: 0; width: 50px; height: 100%; pointer-events: none; z-index: -1; }
-    .vine-left { left: 0; background: linear-gradient(to right, var(--vine-color), transparent); }
-    .vine-right { right: 0; background: linear-gradient(to left, var(--vine-color), transparent); }
-    .leaf { position: fixed; font-size: 1.2rem; opacity: 0.12; pointer-events: none; z-index: -1; animation: leafFloat linear infinite; }
-    @keyframes leafFloat { 0% { transform: translateY(-20px) rotate(0deg); opacity: 0; } 10% { opacity: 0.12; } 90% { opacity: 0.12; } 100% { transform: translateY(100vh) rotate(360deg); opacity: 0; } }
+    .pond-left, .pond-right { position: fixed; top: 0; width: 70px; height: 100%; pointer-events: none; z-index: -1; }
+    .pond-left { left: 0; background: linear-gradient(to right, var(--pond-color), transparent); }
+    .pond-right { right: 0; background: linear-gradient(to left, var(--pond-color), transparent); }
+    .floater { position: fixed; font-size: 1.3rem; opacity: 0.18; pointer-events: none; z-index: -1; animation: floatBob linear infinite; }
+    @keyframes floatBob { 0% { transform: translateY(-30px) translateX(0) rotate(0deg); opacity: 0; } 10% { opacity: 0.22; } 50% { transform: translateY(50vh) translateX(15px) rotate(180deg); } 90% { opacity: 0.22; } 100% { transform: translateY(105vh) translateX(0) rotate(360deg); opacity: 0; } }
 
     .capy-container { position: relative; margin: 0.5rem 0; cursor: default; user-select: none; }
-    .capy { width: 120px; height: 120px; display: block; filter: drop-shadow(0 0 25px rgba(212,145,94,0.3)); }
+    .capy { width: 120px; height: 120px; display: block; filter: drop-shadow(0 0 22px rgba(91,168,181,0.28)) drop-shadow(0 0 40px rgba(212,145,94,0.18)); position: relative; z-index: 2; }
     .capy-img { width: 100%; height: 100%; object-fit: contain; }
-    .capy.petting { animation: petBounce 0.6s ease-out; }
-    @keyframes petBounce { 0% { transform: scale(1); } 15% { transform: scale(1.2) rotate(-3deg); } 30% { transform: scale(0.95) rotate(3deg); } 45% { transform: scale(1.1) rotate(-2deg); } 60% { transform: scale(0.98); } 100% { transform: scale(1); } }
-    .heart-ring { position: absolute; top: 50%; left: 50%; width: 20px; height: 20px; border: 3px solid var(--ring-color); border-radius: 50%; transform: translate(-50%,-50%) scale(0); pointer-events: none; }
-    .heart-ring.active { animation: heartExpand 0.8s ease-out forwards; }
-    @keyframes heartExpand { 0% { transform: translate(-50%,-50%) scale(0); opacity: 1; } 100% { transform: translate(-50%,-50%) scale(8); opacity: 0; } }
-    .shake { animation: screenShake 0.3s ease-out; }
-    @keyframes screenShake { 0%,100% { transform: translate(0); } 10% { transform: translate(-3px,2px); } 20% { transform: translate(3px,-3px); } 30% { transform: translate(-2px,1px); } 50% { transform: translate(1px,-1px); } }
+    .capy.petting { animation: petBounce 0.7s ease-out; }
+    @keyframes petBounce { 0% { transform: scale(1) translateY(0); } 20% { transform: scale(1.15) translateY(-6px) rotate(-2deg); } 45% { transform: scale(0.97) translateY(2px) rotate(2deg); } 65% { transform: scale(1.05) translateY(-2px) rotate(-1deg); } 100% { transform: scale(1) translateY(0); } }
+    /* Water surface — soft elliptical pool under the capy */
+    .pool { position: absolute; left: 50%; bottom: -8px; transform: translateX(-50%); width: 150px; height: 22px; border-radius: 50%; background: radial-gradient(ellipse at center, var(--ring-color) 0%, rgba(91,168,181,0.18) 45%, transparent 80%); opacity: 0.55; z-index: 1; animation: poolBreathe 4s ease-in-out infinite; }
+    @keyframes poolBreathe { 0%,100% { transform: translateX(-50%) scale(1); opacity: 0.55; } 50% { transform: translateX(-50%) scale(1.05); opacity: 0.7; } }
+    .ripple { position: absolute; left: 50%; bottom: 0px; width: 30px; height: 8px; border: 2px solid var(--ring-color); border-radius: 50%; transform: translateX(-50%) scale(0); pointer-events: none; z-index: 1; }
+    .ripple.active { animation: rippleSpread 1.1s ease-out forwards; }
+    @keyframes rippleSpread { 0% { transform: translateX(-50%) scale(0.3); opacity: 0.95; } 100% { transform: translateX(-50%) scale(7); opacity: 0; } }
 
-    h1 { font-family: 'Righteous', cursive; font-size: 2.5rem; margin-bottom: 0.2rem; background: linear-gradient(135deg, var(--warm-primary), var(--warm-light), #F0D0A8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .subtitle { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.25rem; }
-    h2 { font-family: 'Righteous', cursive; font-size: 1.3rem; color: var(--warm-light); margin-bottom: 1rem; text-align: center; }
+    h1 { font-family: 'Fraunces', serif; font-style: italic; font-weight: 400; font-variation-settings: 'SOFT' 100, 'opsz' 144; font-size: 2.7rem; margin-bottom: 0.3rem; color: var(--text-primary); letter-spacing: -0.03em; line-height: 1; }
+    h1 .accent { font-style: italic; font-weight: 600; color: var(--warm-light); }
+    .subtitle { color: var(--text-muted); font-size: 0.92rem; margin-bottom: 1.5rem; font-weight: 400; letter-spacing: 0.01em; }
+    h2 { font-family: 'Fraunces', serif; font-style: italic; font-weight: 400; font-variation-settings: 'SOFT' 80, 'opsz' 60; font-size: 1.3rem; color: var(--text-primary); margin-bottom: 1.1rem; text-align: left; letter-spacing: -0.02em; display: flex; align-items: center; gap: 0.55rem; }
+    h2::before { content: ''; display: inline-block; width: 22px; height: 1px; background: var(--water-light); flex-shrink: 0; }
 
-    .card { background: var(--bg-card); backdrop-filter: blur(10px); border-radius: 16px; padding: 1.5rem; margin: 0.6rem 0; width: 100%; border: 1px solid var(--nav-border); box-shadow: 0 4px 24px rgba(0,0,0,0.15); }
+    .card { background: var(--bg-card); backdrop-filter: blur(10px); border-radius: 28px 12px 28px 12px; padding: 1.6rem 1.5rem; margin: 0.7rem 0; width: 100%; box-shadow: 0 18px 38px -22px rgba(0,0,0,0.4), 0 2px 0 rgba(255,255,255,0.02) inset; }
 
-    button { background: linear-gradient(135deg, var(--warm-dark), var(--warm-primary)); color: white; border: none; padding: 0.85rem 1.5rem; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; width: 100%; margin: 0.3rem 0; transition: all 0.3s; text-transform: uppercase; letter-spacing: 0.5px; position: relative; overflow: hidden; min-height: 44px; }
-    button::after { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent); transition: left 0.5s; }
-    button:hover::after { left: 100%; }
-    button:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(212,145,94,0.25); }
-    button:active { transform: translateY(0); }
-    button:disabled { background: var(--btn-disabled-bg); cursor: not-allowed; transform: none; box-shadow: none; color: var(--text-muted); }
-    button:disabled::after { display: none; }
-    button.secondary { background: linear-gradient(135deg, var(--warm-darker), var(--warm-dark)); font-size: 0.9rem; }
+    button { background: var(--warm-primary); color: white; border: none; padding: 0.85rem 1.5rem; border-radius: 999px; font-size: 0.95rem; font-weight: 500; cursor: pointer; width: 100%; margin: 0.3rem 0; transition: filter 0.2s, transform 0.2s, box-shadow 0.2s; letter-spacing: 0.005em; min-height: 44px; font-family: 'DM Sans', sans-serif; box-shadow: 0 1px 0 rgba(255,255,255,0.15) inset, 0 8px 18px -10px rgba(212,145,94,0.55); }
+    button:hover { filter: brightness(1.05); transform: translateY(-1px); }
+    button:active { transform: translateY(0); filter: brightness(0.97); }
+    button:disabled { background: var(--btn-disabled-bg); cursor: not-allowed; transform: none; box-shadow: none; color: var(--text-muted); filter: none; }
+    button.secondary { background: transparent; color: var(--warm-light); border: 1px solid var(--copy-border); font-size: 0.88rem; box-shadow: none; }
+    button.secondary:hover { background: rgba(212,145,94,0.08); filter: none; }
 
-    .disconnect-btn { background: transparent; border: 1px solid var(--disconnect-border); color: #ff6b6b; font-size: 0.75rem; padding: 0.4rem 0.8rem; margin-top: 0.4rem; text-transform: none; letter-spacing: 0; font-weight: 500; min-height: 44px; }
-    .disconnect-btn:hover { background: rgba(255,100,100,0.1); box-shadow: none; transform: none; }
-    .disconnect-btn::after { display: none; }
 
-    #petBtn:not(:disabled) { background: linear-gradient(135deg, var(--orange-dark), var(--orange-primary), var(--orange-light)); animation: petPulse 2s ease-in-out infinite; font-size: 1.1rem; padding: 1rem; }
-    @keyframes petPulse { 0%,100% { box-shadow: 0 0 10px rgba(255,140,66,0.25); } 50% { box-shadow: 0 0 25px rgba(255,140,66,0.5); } }
+    #petBtn:not(:disabled) { background: var(--orange-primary); color: #fff; font-size: 1.05rem; font-weight: 600; padding: 1.05rem; animation: petPulse 2.4s ease-in-out infinite; }
+    @keyframes petPulse { 0%,100% { box-shadow: 0 1px 0 rgba(255,255,255,0.18) inset, 0 8px 22px -8px rgba(255,140,66,0.35); } 50% { box-shadow: 0 1px 0 rgba(255,255,255,0.18) inset, 0 12px 30px -8px rgba(255,140,66,0.55); } }
 
-    input { width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid var(--copy-border); background: var(--bg-input); color: var(--text-primary); font-size: 0.95rem; margin: 0.4rem 0; transition: border-color 0.3s; min-height: 44px; }
+    input { width: 100%; padding: 0.85rem 1.1rem; border-radius: 999px; border: 1px solid var(--copy-border); background: var(--bg-input); color: var(--text-primary); font-size: 0.92rem; margin: 0; transition: border-color 0.3s; min-height: 44px; font-family: 'DM Sans', sans-serif; }
     input:focus { outline: none; border-color: var(--warm-primary); }
+    input::placeholder { color: var(--text-muted); font-style: italic; font-family: 'Fraunces', serif; }
 
-    .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin: 0.4rem 0; }
-    .stats-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
-    .stat-box { background: var(--bg-stat); border-radius: 12px; padding: 0.85rem; text-align: center; border: 1px solid var(--stat-border); }
-    .stat-box .label { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
-    .stat-box .value { font-family: 'Righteous', cursive; font-size: 1.8rem; color: var(--warm-primary); transition: transform 0.3s; }
-    .stat-box .value.pop { animation: popNumber 0.4s ease-out; }
-    .stat-box .value.small { font-size: 1.2rem; }
-    @keyframes popNumber { 0% { transform: scale(1); } 50% { transform: scale(1.3); color: var(--orange-light); } 100% { transform: scale(1); } }
+    /* Editorial stats: hero numeral + dotted-leader list, lives inside the action card */
+    .action-stats { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 1.4rem; align-items: end; padding: 0.2rem 0; }
+    .stat-hero { min-width: 0; }
+    .stat-hero-num { font-family: 'Fraunces', serif; font-style: italic; font-weight: 400; font-variation-settings: 'SOFT' 100, 'opsz' 144; font-size: 4.6rem; line-height: 0.95; color: var(--warm-light); letter-spacing: -0.045em; transition: transform 0.3s; }
+    .stat-hero-label { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.55rem; letter-spacing: 0.04em; font-weight: 400; }
+    .stat-hero-label::before { content: '— '; opacity: 0.6; }
+    .stat-meta { display: flex; flex-direction: column; gap: 0.55rem; min-width: 150px; padding-bottom: 0.4rem; }
+    .meta-row { display: flex; align-items: baseline; gap: 0.5rem; font-size: 0.85rem; line-height: 1; }
+    .meta-label { color: var(--text-muted); font-size: 0.78rem; letter-spacing: 0.02em; flex-shrink: 0; }
+    .meta-leader { flex: 1; min-width: 14px; border-bottom: 1px dotted var(--milestone-border); transform: translateY(-3px); height: 1px; }
+    .meta-value { font-family: 'Fraunces', serif; font-style: italic; font-weight: 500; color: var(--warm-light); flex-shrink: 0; }
+    .stat-num.pop { animation: popNumber 0.6s ease-out; }
+    @keyframes popNumber { 0% { color: var(--warm-light); } 35% { color: var(--orange-light); } 100% { color: var(--warm-light); } }
 
-    .status { margin: 0.6rem 0; padding: 0.7rem; border-radius: 10px; text-align: center; font-size: 0.85rem; }
+    .status { margin: 0.6rem 0; padding: 0.7rem 0.9rem; border-radius: 18px 6px 18px 6px; text-align: left; font-size: 0.85rem; font-weight: 400; }
     .status.success { background: var(--success-bg); color: var(--warm-primary); border: 1px solid var(--success-border); }
     .status.error { background: var(--error-bg); color: #ff6b6b; border: 1px solid var(--error-border); }
     .status.info { background: var(--info-bg); color: var(--text-primary); border: 1px solid var(--info-border); }
 
-    .top-banner { background: var(--top-banner-bg); border-radius: 12px; padding: 0.85rem; text-align: center; margin: 0.6rem 0; font-weight: 600; font-size: 0.9rem; border: 1px solid rgba(255,152,0,0.2); }
+    /* Top petter — subhero credit line, sits just under the subtitle */
+    .top-banner { background: transparent; border-radius: 0; padding: 0.4rem 0 0.4rem 0.7rem; text-align: left; margin: -0.4rem 0 0.85rem; font-weight: 400; font-size: 0.86rem; border: none; border-left: 2px solid var(--orange-primary); color: var(--text-muted); font-family: 'Fraunces', serif; font-style: italic; letter-spacing: -0.005em; }
+    .top-banner strong { font-weight: 500; color: var(--warm-light); }
 
-    .milestones { display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; margin: 0.5rem 0; }
-    .milestone { display: flex; align-items: center; gap: 0.25rem; padding: 0.3rem 0.6rem; border-radius: 20px; font-size: 0.7rem; font-weight: 600; border: 1px solid var(--milestone-border); background: var(--milestone-bg); color: var(--text-muted); min-height: 44px; }
-    .milestone.achieved { border-color: var(--orange-primary); background: rgba(255,140,66,0.1); color: var(--orange-light); }
-    .milestone .m-icon { font-size: 0.85rem; }
+    /* Wallet strip — quiet inline status above the action card when connected */
+    .wallet-strip { display: flex; justify-content: flex-end; align-items: center; gap: 0.85rem; padding: 0.3rem 0.2rem; margin: 0 0 0.3rem; font-size: 0.78rem; color: var(--text-muted); width: 100%; }
+    .wallet-strip #walletAddr { color: var(--warm-light); font-family: 'Fraunces', serif; font-style: italic; font-size: 0.82rem; }
+    .link-btn { background: none; border: none; color: var(--text-muted); padding: 0.25rem 0; font-size: 0.78rem; cursor: pointer; width: auto; min-height: 0; box-shadow: none; letter-spacing: 0; font-family: 'DM Sans', sans-serif; font-weight: 400; margin: 0; }
+    .link-btn:hover { color: var(--warm-light); background: none; transform: none; filter: none; }
+    .link-btn-warn:hover { color: #ff6b6b; }
+    .link-btn::after { display: none; }
 
-    .copy-row { display: flex; align-items: center; gap: 0.4rem; justify-content: center; margin-top: 0.4rem; }
-    .copy-btn { background: none; border: 1px solid var(--copy-border); color: var(--text-muted); font-size: 0.65rem; padding: 0.2rem 0.5rem; border-radius: 4px; width: auto; margin: 0; text-transform: none; letter-spacing: 0; font-weight: 500; cursor: pointer; min-height: 44px; min-width: 44px; display: inline-flex; align-items: center; justify-content: center; }
-    .copy-btn:hover { background: rgba(212,145,94,0.1); color: var(--warm-primary); box-shadow: none; transform: none; }
-    .copy-btn::after { display: none; }
+    /* Action card — primary single card combining stats, action, name, share */
+    .action-card { display: flex; flex-direction: column; gap: 0.85rem; }
+    .name-row { display: flex; gap: 0.5rem; align-items: stretch; }
+    .name-row input { flex: 1; margin: 0; }
+    .name-row button { width: auto; flex-shrink: 0; padding: 0 1.2rem; margin: 0; min-width: 110px; }
 
-    .share-row { display: flex; gap: 0.5rem; margin-top: 0.75rem; }
-    .share-btn { flex: 1; background: none; border: 1px solid var(--share-border); color: var(--text-muted); font-size: 0.75rem; padding: 0.5rem; border-radius: 8px; text-transform: none; letter-spacing: 0; font-weight: 600; cursor: pointer; min-height: 44px; }
-    .share-btn:hover { background: rgba(212,145,94,0.1); color: var(--warm-primary); box-shadow: none; transform: none; }
-    .share-btn::after { display: none; }
-    .share-btn.x-btn { border-color: rgba(255,255,255,0.15); }
-    .share-btn.x-btn:hover { border-color: #fff; color: #fff; }
-    .share-btn.fc-btn { border-color: rgba(138,99,210,0.3); }
-    .share-btn.fc-btn:hover { border-color: #8B63D2; color: #8B63D2; }
+    /* Onsen stamp card — passport-style row with link lines */
+    .stamp-card { display: flex; flex-direction: column; gap: 0.95rem; padding: 1.3rem 1.5rem 1.2rem; background: var(--bg-card); backdrop-filter: blur(10px); border-radius: 28px 12px 28px 12px; box-shadow: 0 18px 38px -22px rgba(0,0,0,0.4); margin: 0.7rem 0; width: 100%; }
+    .stamp-eyebrow { font-family: 'Fraunces', serif; font-style: italic; font-size: 0.78rem; color: var(--text-muted); letter-spacing: 0.02em; }
+    .stamp-row { display: flex; align-items: center; gap: 0.25rem; }
+    .stamp { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; flex-shrink: 0; box-shadow: 0 0 0 1px var(--stat-border) inset; color: var(--text-muted); background: var(--bg-stat); transition: all 0.3s; font-family: 'Fraunces', serif; font-style: italic; font-weight: 500; }
+    .stamp.achieved { background: var(--warm-primary); color: #fff; box-shadow: 0 0 0 1px var(--warm-primary) inset, 0 4px 10px -3px rgba(212,145,94,0.5); font-style: normal; font-size: 1rem; }
+    .stamp.current { box-shadow: 0 0 0 1.5px var(--orange-primary) inset; color: var(--orange-light); background: rgba(255,140,66,0.06); animation: stampPulse 2.6s ease-in-out infinite; }
+    @keyframes stampPulse { 0%,100% { box-shadow: 0 0 0 1.5px var(--orange-primary) inset, 0 0 0 0 rgba(255,140,66,0.25); } 50% { box-shadow: 0 0 0 1.5px var(--orange-primary) inset, 0 0 0 6px rgba(255,140,66,0); } }
+    .stamp-link { flex: 1; min-width: 6px; border-top: 1px dashed var(--milestone-border); height: 1px; }
+    .stamp-link.achieved { border-top-style: solid; border-top-color: var(--warm-primary); opacity: 0.55; }
+    .stamp-caption { font-family: 'Fraunces', serif; font-style: italic; font-size: 0.92rem; color: var(--text-muted); letter-spacing: -0.005em; }
+    .stamp-caption strong { color: var(--warm-light); font-weight: 500; }
 
-    .leaderboard-table { width: 100%; border-collapse: separate; border-spacing: 0 0.35rem; }
-    .leaderboard-table th { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; padding: 0.4rem 0.6rem; text-align: left; font-weight: 600; }
-    .leaderboard-table th:last-child { text-align: right; }
-    .leaderboard-row { background: var(--lb-row-bg); border-radius: 8px; }
-    .leaderboard-row td { padding: 0.6rem; font-size: 0.85rem; }
-    .leaderboard-row td:first-child { border-radius: 8px 0 0 8px; width: 35px; text-align: center; }
-    .leaderboard-row td:last-child { border-radius: 0 8px 8px 0; text-align: right; font-family: 'Righteous', cursive; color: var(--warm-primary); }
-    .leaderboard-row.is-you { background: var(--lb-you-bg); border: 1px solid var(--lb-you-border); }
-    .rank-1 { color: #FFD700; font-weight: 700; } .rank-2 { color: #C0C0C0; font-weight: 600; } .rank-3 { color: #CD7F32; font-weight: 600; }
-    .addr-mono { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.8rem; color: var(--addr-color); }
+    .copy-btn { background: none; border: 1px solid var(--copy-border); color: var(--text-muted); font-size: 0.7rem; padding: 0.2rem 0.55rem; border-radius: 999px; width: auto; margin: 0; letter-spacing: 0; font-weight: 400; cursor: pointer; min-height: 44px; min-width: 44px; display: inline-flex; align-items: center; justify-content: center; box-shadow: none; }
+    .copy-btn:hover { background: rgba(212,145,94,0.08); color: var(--warm-light); box-shadow: none; transform: none; filter: none; }
+
+    .share-row { display: flex; gap: 0.5rem; margin-top: 0.85rem; }
+    .share-btn { flex: 1; background: transparent; border: 1px solid var(--share-border); color: var(--text-muted); font-size: 0.8rem; padding: 0.55rem; border-radius: 999px; letter-spacing: 0.01em; font-weight: 500; cursor: pointer; min-height: 44px; box-shadow: none; }
+    .share-btn:hover { background: rgba(91,168,181,0.08); color: var(--water-light); box-shadow: none; transform: none; filter: none; }
+    .share-btn.x-btn { border-color: rgba(255,255,255,0.18); }
+    .share-btn.x-btn:hover { border-color: #fff; color: #fff; background: rgba(255,255,255,0.04); }
+    .share-btn.fc-btn { border-color: rgba(138,99,210,0.32); }
+    .share-btn.fc-btn:hover { border-color: #8B63D2; color: #8B63D2; background: rgba(138,99,210,0.06); }
+
+    /* Leaderboard as horizontal bars — no rank, length tells the story */
+    .lb { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; padding: 0; margin: 0.2rem 0 0; }
+    .lb-row { display: grid; grid-template-columns: minmax(0, 36%) 1fr auto; align-items: center; gap: 0.7rem; padding: 0.45rem 0.6rem; border-radius: 14px 4px 14px 4px; transition: background 0.2s; }
+    .lb-row.is-you { background: var(--lb-you-bg); box-shadow: inset 0 0 0 1px var(--lb-you-border); }
+    .lb-name { font-size: 0.88rem; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+    .lb-name em { font-style: italic; font-family: 'Fraunces', serif; color: var(--orange-light); font-weight: 400; margin-left: 0.2rem; font-size: 0.82rem; }
+    .lb-bar { height: 6px; border-radius: 999px; background: var(--bg-stat); overflow: hidden; min-width: 30px; }
+    .lb-fill { display: block; height: 100%; background: linear-gradient(90deg, var(--warm-dark), var(--warm-primary), var(--orange-light)); border-radius: 999px; transition: width 0.6s ease-out; }
+    .lb-row.is-you .lb-fill { background: linear-gradient(90deg, var(--orange-dark), var(--orange-primary), var(--orange-light)); box-shadow: 0 0 12px -2px rgba(255,140,66,0.5); }
+    .lb-count { font-family: 'Fraunces', serif; font-style: italic; font-weight: 500; color: var(--warm-light); font-size: 0.95rem; min-width: 28px; text-align: right; line-height: 1; }
+    .lb-empty { font-family: 'Fraunces', serif; font-style: italic; color: var(--text-muted); padding: 0.6rem 0; font-size: 0.92rem; }
+    .lb-loading { font-family: 'Fraunces', serif; font-style: italic; color: var(--text-muted); padding: 0.6rem 0; font-size: 0.88rem; }
+    .addr-mono { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.78rem; color: var(--addr-color); }
     .basename { color: var(--warm-light); font-weight: 500; }
-    .leaderboard-empty { text-align: center; padding: 1.5rem; color: var(--text-muted); font-size: 0.85rem; }
-    .lb-loading { text-align: center; padding: 1rem; color: var(--text-muted); font-size: 0.8rem; }
 
-    .how-it-works { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem; margin-top: 0.5rem; }
-    .step { text-align: center; padding: 1rem 0.5rem; background: var(--bg-step); border-radius: 12px; border: 1px solid var(--step-border); }
-    .step-icon { font-size: 1.8rem; margin-bottom: 0.4rem; }
-    .step-num { font-size: 0.65rem; color: var(--orange-primary); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-bottom: 0.25rem; }
-    .step-text { font-size: 0.75rem; color: var(--text-muted); line-height: 1.4; }
 
     .contract-info { display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-top: 0.5rem; padding: 0.5rem 0.75rem; background: var(--bg-contract); border-radius: 8px; border: 1px solid var(--contract-border); flex-wrap: wrap; }
-    .contract-info .label { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+    .contract-info .label { font-size: 0.7rem; color: var(--text-muted); text-transform: lowercase; letter-spacing: 0.04em; font-family: 'Fraunces', serif; font-style: italic; }
     .contract-info .addr { font-family: 'SF Mono', monospace; font-size: 0.75rem; color: var(--addr-color); }
     .contract-info a { color: var(--warm-primary); text-decoration: none; font-size: 0.7rem; }
     .contract-info a:hover { text-decoration: underline; }
 
-    .footer { width: 100%; margin-top: 2rem; padding: 1.5rem 1.5rem 6rem; border-top: 1px solid var(--footer-border); text-align: center; }
+    .footer { width: 100%; margin-top: 2rem; padding: 1.5rem 1.5rem 2.5rem; border-top: 1px solid var(--footer-border); text-align: left; }
     .footer-links { display: flex; justify-content: center; gap: 1.5rem; margin-bottom: 0.75rem; flex-wrap: wrap; }
     .footer-links a { color: var(--text-muted); text-decoration: none; font-size: 0.8rem; font-weight: 500; transition: color 0.2s; }
     .footer-links a:hover { color: var(--warm-light); }
     .footer-meta { font-size: 0.65rem; color: rgba(154,133,112,0.4); line-height: 1.6; }
 
-    .pet-flash { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); font-family: 'Righteous', cursive; font-size: 4.5rem; color: var(--orange-light); opacity: 0; pointer-events: none; z-index: 200; text-shadow: 0 0 40px rgba(255,140,66,0.4); }
-    .pet-flash.show { animation: flashNumber 1s ease-out forwards; }
-    @keyframes flashNumber { 0% { opacity: 0; transform: translate(-50%,-50%) scale(0.5); } 20% { opacity: 1; transform: translate(-50%,-50%) scale(1.2); } 100% { opacity: 0; transform: translate(-50%,-60%) scale(1.5); } }
 
-    .toast { position: fixed; bottom: 5rem; right: 1.5rem; padding: 0.6rem 1rem; border-radius: 8px; font-size: 0.8rem; color: #fff; background: var(--toast-bg); z-index: 300; animation: toastIn 0.3s ease-out, toastOut 0.3s ease-in 1.7s forwards; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
+    .toast { position: fixed; bottom: 1.5rem; right: 1.5rem; padding: 0.6rem 1rem; border-radius: 999px; font-size: 0.8rem; color: #fff; background: var(--toast-bg); z-index: 300; animation: toastIn 0.3s ease-out, toastOut 0.3s ease-in 1.7s forwards; box-shadow: 0 4px 20px rgba(0,0,0,0.4); font-family: 'Fraunces', serif; font-style: italic; }
     @keyframes toastIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes toastOut { from { opacity: 1; } to { opacity: 0; transform: translateY(20px); } }
 
@@ -240,122 +269,112 @@
     .theme-toggle:hover { background: rgba(212,145,94,0.1); }
     .theme-toggle::after { display: none; }
 
-    /* Bottom navigation */
-    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; z-index: 50; display: flex; justify-content: space-around; align-items: center; background: var(--bg-nav); backdrop-filter: blur(20px); border-top: 1px solid var(--nav-border); padding: 0.4rem 0; padding-bottom: max(0.4rem, env(safe-area-inset-bottom)); }
-    .bottom-nav-item { display: flex; flex-direction: column; align-items: center; gap: 0.15rem; padding: 0.3rem 0.75rem; border-radius: 8px; text-decoration: none; color: var(--text-muted); font-size: 0.6rem; font-weight: 600; transition: all 0.2s; cursor: pointer; min-width: 60px; min-height: 44px; justify-content: center; background: none; border: none; letter-spacing: 0; text-transform: none; width: auto; margin: 0; }
-    .bottom-nav-item:hover, .bottom-nav-item.active { color: var(--warm-primary); background: rgba(212,145,94,0.08); }
-    .bottom-nav-item::after { display: none; }
-    .bottom-nav-icon { font-size: 1.2rem; line-height: 1; }
-    .bottom-nav-label { font-size: 0.6rem; line-height: 1; }
-    .sponsored-badge { display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.7rem; color: #4CAF50; font-weight: 600; margin-top: 0.4rem; justify-content: center; }
+    .sponsored-badge { display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.72rem; color: #4CAF50; font-weight: 400; margin-top: 0.5rem; justify-content: flex-start; font-family: 'Fraunces', serif; font-style: italic; }
     [data-theme="light"] .sponsored-badge { color: #2E7D32; }
 
     @media (max-width: 520px) {
-      h1 { font-size: 2rem; } .capy { width: 90px; height: 90px; }
-      .how-it-works { grid-template-columns: 1fr; }
+      h1 { font-size: 2.2rem; } .capy { width: 90px; height: 90px; }
       .navbar { padding: 0.6rem 1rem; } .nav-link { display: none; }
-      .stat-box .value { font-size: 1.5rem; } .stat-box .value.small { font-size: 1rem; }
-      .card { padding: 1.2rem; }
-      .stats-4 { grid-template-columns: 1fr 1fr; }
+      .card { padding: 1.3rem; }
+      .action-stats { grid-template-columns: 1fr; gap: 1rem; align-items: start; }
+      .stat-hero-num { font-size: 3.6rem; }
+      .stat-meta { min-width: 0; }
+      .name-row { flex-direction: column; }
+      .name-row button { width: 100%; padding: 0.85rem; }
     }
     a { color: var(--warm-primary); }
   </style>
 </head>
 <body>
   <canvas id="particles"></canvas>
-  <div class="vine-left"></div>
-  <div class="vine-right"></div>
+  <div class="pond-left" aria-hidden="true"></div>
+  <div class="pond-right" aria-hidden="true"></div>
 
   <nav class="navbar">
-    <a href="#" class="nav-brand"><img src="capy-laugh.png" class="logo" alt="Capybara"><span class="brand-text">Capybara Petter</span></a>
+    <a href="#" class="nav-brand"><img src="capy-laugh.png" class="logo" alt="Capybara"><span class="brand-text">capybara<span class="brand-dot" aria-hidden="true"></span>petter</span></a>
     <div class="nav-right">
-      <a href="#" id="contractLink" target="_blank" class="nav-link">Contract</a>
-      <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle theme">&#x1F319;</button>
-      <button class="sound-toggle" id="soundToggle" onclick="toggleSound()" title="Toggle sound">&#x1F50A;</button>
+      <a href="#" id="contractLink" target="_blank" class="nav-link" aria-label="View contract on Basescan">Contract</a>
+      <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle light/dark theme">&#x1F319;</button>
+      <button class="sound-toggle" id="soundToggle" onclick="toggleSound()" title="Toggle sound" aria-label="Toggle sound effects">&#x1F50A;</button>
       <div id="fcUserBadge" style="display:none;align-items:center;font-size:0.75rem;font-weight:600;color:var(--warm-light);padding:0.3rem 0.6rem;background:rgba(212,145,94,0.1);border:1px solid rgba(212,145,94,0.2);border-radius:20px;gap:4px;"></div>
-      <div class="network-badge"><div class="network-dot"></div>Base Mainnet</div>
+      <div class="network-badge"><div class="network-dot"></div>base mainnet</div>
     </div>
   </nav>
 
   <div class="main-content">
     <div class="capy-container">
+      <div class="pool" aria-hidden="true"></div>
       <div class="capy" id="capy"><img src="capy-heart.png" class="capy-img" id="capyImg" alt="Capybara"></div>
-      <div class="heart-ring" id="ring1"></div>
-      <div class="heart-ring" id="ring2"></div>
-      <div class="heart-ring" id="ring3"></div>
+      <div class="ripple" id="ring1" aria-hidden="true"></div>
+      <div class="ripple" id="ring2" aria-hidden="true"></div>
+      <div class="ripple" id="ring3" aria-hidden="true"></div>
     </div>
 
-    <h1>Capybara Petter</h1>
-    <p class="subtitle">The onchain capybara petting competition on Base</p>
+    <h1>capybara <span class="accent">petter</span></h1>
+    <p class="subtitle">every pet is an onchain transaction on base. soak in, pet, repeat &mdash; most pets becomes top petter.</p>
 
-    <!-- CONNECT -->
-    <div class="card">
-      <button id="connectBtn" onclick="connectWallet()">&#x1F517; Connect Wallet</button>
-      <div id="walletInfo" style="display:none;">
-        <div class="copy-row">
-          <span id="walletAddr" style="font-size:0.7rem; word-break:break-all; color:var(--text-muted);"></span>
-          <button class="copy-btn" onclick="copyAddr()">Copy</button>
+    <!-- TOP PETTER (subhero credit, just under the subtitle) -->
+    <div class="top-banner" id="topBanner" style="display:none;">
+      <strong>top petter</strong> &mdash; <span id="topAddr"></span>, <span id="topPetsCount"></span> pets
+    </div>
+
+    <!-- WALLET STRIP (only when connected) -->
+    <div class="wallet-strip" id="walletInfo" style="display:none;">
+      <span id="walletAddr"></span>
+      <button class="link-btn" onclick="copyAddr()" aria-label="Copy wallet address">copy</button>
+      <button class="link-btn link-btn-warn" onclick="disconnectWallet()">disconnect</button>
+    </div>
+
+    <!-- ACTION CARD (merged: stats hero + connect/pet + name + share) -->
+    <div class="card action-card">
+      <div class="action-stats">
+        <div class="stat-hero">
+          <div class="stat-hero-num stat-num" id="yourPets">&mdash;</div>
+          <div class="stat-hero-label">your pets so far</div>
         </div>
-        <button class="disconnect-btn" onclick="disconnectWallet()">Disconnect</button>
+        <div class="stat-meta">
+          <div class="meta-row"><span class="meta-label">total</span><span class="meta-leader" aria-hidden="true"></span><span class="meta-value stat-num" id="totalPets">&mdash;</span></div>
+          <div class="meta-row"><span class="meta-label">streak</span><span class="meta-leader" aria-hidden="true"></span><span class="meta-value stat-num" id="streakCount">&mdash;</span></div>
+          <div class="meta-row"><span class="meta-label">petters</span><span class="meta-leader" aria-hidden="true"></span><span class="meta-value stat-num" id="petterCount">&mdash;</span></div>
+        </div>
       </div>
-    </div>
 
-    <!-- STATS -->
-    <div class="card">
-      <div class="stats stats-4">
-        <div class="stat-box"><div class="label">Total Pets</div><div class="value" id="totalPets">-</div></div>
-        <div class="stat-box"><div class="label">Your Pets</div><div class="value" id="yourPets">-</div></div>
-        <div class="stat-box"><div class="label">Streak</div><div class="value small" id="streakCount">-</div></div>
-        <div class="stat-box"><div class="label">Petters</div><div class="value small" id="petterCount">-</div></div>
-      </div>
-      <div class="top-banner" id="topBanner" style="display:none;">
-        &#x1F3C6; <strong>Top Petter:</strong> <span id="topAddr"></span> &middot; <span id="topPetsCount"></span> pets
-      </div>
-    </div>
+      <button id="connectBtn" onclick="connectWallet()">&#x1F517; connect wallet</button>
 
-    <!-- MILESTONES -->
-    <div id="milestonesCard" class="card" style="display:none;">
-      <h2>&#x1F3C5; Milestones</h2>
-      <div class="milestones" id="milestones"></div>
-    </div>
-
-    <!-- PET -->
-    <div class="card">
-      <button id="petBtn" onclick="petCapybara()" disabled>&#x2764;&#xFE0F; Pet Capybara!</button>
-      <div style="margin-top: 0.75rem;">
-        <input type="text" id="nameInput" placeholder="Enter your petter name..." maxlength="32">
-        <button class="secondary" id="nameBtn" onclick="setName()" disabled>&#x1F3F7; Set Name</button>
+      <div id="actionPanel" style="display:none;">
+        <button id="petBtn" onclick="petCapybara()">&#x2764;&#xFE0F; pet the capybara</button>
+        <div class="name-row">
+          <input type="text" id="nameInput" placeholder="give your petter a name&hellip;" maxlength="32">
+          <button class="secondary" id="nameBtn" onclick="setName()">&#x1F3F7; set name</button>
+        </div>
+        <div class="share-row">
+          <button class="share-btn x-btn" onclick="shareX()">&#x1D54F; share on x</button>
+          <button class="share-btn fc-btn" onclick="shareFC()">&#x1F7E3; cast it</button>
+        </div>
+        <div class="sponsored-badge" id="sponsoredBadge" style="display:none;">&#x2705; gas sponsored</div>
       </div>
-      <div class="share-row">
-        <button class="share-btn x-btn" onclick="shareX()">&#x1D54F; Share on X</button>
-        <button class="share-btn fc-btn" onclick="shareFC()">&#x1F7E3; Share to Feed</button>
-      </div>
-      <div class="sponsored-badge" id="sponsoredBadge" style="display:none;">&#x2705; Gas Sponsored</div>
     </div>
 
     <div id="statusMsg"></div>
 
     <!-- LEADERBOARD -->
     <div class="card">
-      <h2>&#x1F3C6; Leaderboard</h2>
-      <div id="leaderboard"><div class="lb-loading">Loading petters from chain...</div></div>
+      <h2>leaderboard</h2>
+      <div id="leaderboard"><div class="lb-loading">listening to the pond&hellip;</div></div>
     </div>
 
-    <!-- HOW IT WORKS -->
-    <div class="card">
-      <h2>How It Works</h2>
-      <div class="how-it-works">
-        <div class="step"><div class="step-icon">&#x1F517;</div><div class="step-num">Step 1</div><div class="step-text">Connect your wallet to Base</div></div>
-        <div class="step"><div class="step-icon"><img src="capy-heart.png" style="width:32px;height:32px;"></div><div class="step-num">Step 2</div><div class="step-text">Pet a capybara onchain</div></div>
-        <div class="step"><div class="step-icon">&#x1F3C6;</div><div class="step-num">Step 3</div><div class="step-text">Most pets = Top Petter</div></div>
-      </div>
+    <!-- STAMP CARD (after leaderboard so progress feels like a chapter close) -->
+    <div id="milestonesCard" class="stamp-card" style="display:none;">
+      <div class="stamp-eyebrow">soaking-stamps</div>
+      <div class="stamp-row" id="milestoneRow"></div>
+      <div class="stamp-caption" id="milestoneCaption"></div>
     </div>
 
-    <div class="contract-info" id="contractInfo">
+<div class="contract-info" id="contractInfo">
       <span class="label">Contract:</span>
       <span class="addr" id="contractAddrShort"></span>
-      <button class="copy-btn" onclick="copyContract()">Copy</button>
-      <a id="contractViewLink" href="#" target="_blank">View &#x2197;</a>
+      <button class="copy-btn" onclick="copyContract()" aria-label="Copy contract address">Copy</button>
+      <a id="contractViewLink" href="#" target="_blank" aria-label="View contract on Basescan">View &#x2197;</a>
     </div>
 
     <footer class="footer">
@@ -363,21 +382,11 @@
         <a id="footerBasescan" href="#" target="_blank">Basescan</a>
         <a href="https://base.dev" target="_blank">Base.dev</a>
       </div>
-      <div class="footer-meta">Builder Code: bc_4j84s978 &middot; ERC-8021 Attribution &middot; Built on Base</div>
+      <div class="footer-meta">builder code <span style="font-family:'Fraunces',serif;font-style:italic;">bc_4j84s978</span> &middot; erc-8021 attribution &middot; built on base</div>
     </footer>
   </div>
 
-  <div class="pet-flash" id="petFlash"></div>
-
-  <!-- Bottom Navigation Bar -->
-  <nav class="bottom-nav">
-    <button class="bottom-nav-item active" onclick="scrollToSection('top')"><span class="bottom-nav-icon">&#x1F3E0;</span><span class="bottom-nav-label">Home</span></button>
-    <button class="bottom-nav-item" onclick="scrollToSection('petBtn')"><span class="bottom-nav-icon">&#x1F43E;</span><span class="bottom-nav-label">Pet</span></button>
-    <button class="bottom-nav-item" onclick="scrollToSection('leaderboard')"><span class="bottom-nav-icon">&#x1F3C6;</span><span class="bottom-nav-label">Leaderboard</span></button>
-    <button class="bottom-nav-item" onclick="scrollToSection('contractInfo')"><span class="bottom-nav-icon">&#x2139;&#xFE0F;</span><span class="bottom-nav-label">Info</span></button>
-  </nav>
-
-  <!-- Coinbase Wallet SDK (Smart Wallet support) -->
+<!-- Coinbase Wallet SDK (Smart Wallet support) -->
   <script type="module">
     import { createCoinbaseWalletSDK } from 'https://esm.sh/@coinbase/wallet-sdk';
     try {
@@ -428,14 +437,17 @@
   </script>
 
   <script>
-    for (let i = 0; i < 6; i++) {
-      const leaf = document.createElement('div');
-      leaf.className = 'leaf';
-      leaf.innerHTML = ['\u{1F33F}', '\u{2618}\u{FE0F}', '\u{1F33E}'][Math.floor(Math.random() * 3)];
-      leaf.style.left = Math.random() * 100 + '%';
-      leaf.style.animationDuration = (14 + Math.random() * 20) + 's';
-      leaf.style.animationDelay = (Math.random() * 15) + 's';
-      document.body.appendChild(leaf);
+    // Onsen floaters: yuzu citrus, lily pads, bubbles, water drops
+    const FLOATERS = ['\u{1F34A}', '\u{1FAE7}', '\u{1F4A7}', '\u{1F33F}'];
+    for (let i = 0; i < 7; i++) {
+      const f = document.createElement('div');
+      f.className = 'floater';
+      f.setAttribute('aria-hidden', 'true');
+      f.innerHTML = FLOATERS[Math.floor(Math.random() * FLOATERS.length)];
+      f.style.left = Math.random() * 100 + '%';
+      f.style.animationDuration = (18 + Math.random() * 22) + 's';
+      f.style.animationDelay = (Math.random() * 18) + 's';
+      document.body.appendChild(f);
     }
   </script>
 
@@ -461,15 +473,6 @@
       if (!localStorage.getItem('capy_theme')) applyTheme(e.matches ? 'light' : 'dark');
     });
 
-    // ==== BOTTOM NAV ====
-    function scrollToSection(id) {
-      document.querySelectorAll('.bottom-nav-item').forEach(b => b.classList.remove('active'));
-      event.currentTarget.classList.add('active');
-      if (id === 'top') { window.scrollTo({ top: 0, behavior: 'smooth' }); return; }
-      const el = document.getElementById(id);
-      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-
     // ==== CONFIG ====
     const CONTRACT_ADDRESS = '0xe09C6b3A7390Fc24A3E07AcEF9C31AaDb883a9Ba';
     const BASE_CHAIN_ID = '0x2105';
@@ -484,13 +487,14 @@
     };
 
     const MILESTONES = [
-      { beats: 1, icon: '\u{1F331}', label: 'First Pet' },
-      { beats: 10, icon: '\u{1F43E}', label: '10 Pets' },
-      { beats: 50, icon: '\u{1F496}', label: '50 Pets' },
-      { beats: 100, icon: '\u{2728}', label: '100 Pets' },
-      { beats: 500, icon: '\u{1F48E}', label: '500 Pets' },
-      { beats: 1000, icon: '\u{1F451}', label: '1K Pets' },
+      { pets: 1,    icon: '\u{1F331}', label: 'first soak' },
+      { pets: 10,   icon: '\u{1F43E}', label: 'ten pets' },
+      { pets: 50,   icon: '\u{1F34A}', label: 'fifty pets' },
+      { pets: 100,  icon: '\u{1F4A7}', label: 'a hundred' },
+      { pets: 500,  icon: '\u{1FAB7}', label: 'five hundred' },
+      { pets: 1000, icon: '\u{1F451}', label: 'a thousand' },
     ];
+    function fmtTier(n) { return n >= 1000 ? (n/1000) + 'k' : String(n); }
 
     // Set contract links
     function updateContractLinks() {
@@ -555,8 +559,8 @@
     }
 
     // ==== COPY ====
-    function copyAddr() { if (userAddress) { navigator.clipboard.writeText(userAddress); showToast('Address copied!'); } }
-    function copyContract() { navigator.clipboard.writeText(CONTRACT_ADDRESS); showToast('Contract address copied!'); }
+    function copyAddr() { if (userAddress) { navigator.clipboard.writeText(userAddress); showToast('address copied'); } }
+    function copyContract() { navigator.clipboard.writeText(CONTRACT_ADDRESS); showToast('contract address copied'); }
 
     // ==== SHARE ====
     function shareX() {
@@ -582,26 +586,63 @@
     function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
     resizeCanvas(); window.addEventListener('resize', resizeCanvas);
     class Particle {
-      constructor(x,y,type) { this.x=x;this.y=y;this.type=type;this.vx=(Math.random()-0.5)*8;this.vy=(Math.random()-0.5)*8-3;this.life=1;this.decay=0.015+Math.random()*0.015;this.size=4+Math.random()*8;this.gravity=0.1;this.rotation=Math.random()*Math.PI*2;this.rotSpeed=(Math.random()-0.5)*0.2; }
-      update() { this.x+=this.vx;this.vy+=this.gravity;this.y+=this.vy;this.vx*=0.98;this.life-=this.decay;this.rotation+=this.rotSpeed; }
-      draw() { ctx.save();ctx.translate(this.x,this.y);ctx.rotate(this.rotation);ctx.globalAlpha=this.life;if(this.type==='heart'){ctx.font=this.size*2+'px serif';ctx.fillText('\u{2764}\u{FE0F}',-this.size,this.size/2);}else if(this.type==='sparkle'){ctx.font=this.size*2+'px serif';ctx.fillText('\u{2728}',-this.size,this.size/2);}else{ctx.fillStyle=this.type==='warm'?'#D4915E':'#FF8C42';ctx.fillRect(-this.size/2,-this.size/2,this.size,this.size);}ctx.restore(); }
+      constructor(x,y,type) {
+        this.x=x; this.y=y; this.type=type;
+        // Bubbles drift up; everything else gets a normal burst
+        if (type==='bubble') {
+          this.vx=(Math.random()-0.5)*3; this.vy=-2-Math.random()*3;
+          this.gravity=-0.04; this.decay=0.012+Math.random()*0.01; this.size=3+Math.random()*6;
+        } else {
+          this.vx=(Math.random()-0.5)*8; this.vy=(Math.random()-0.5)*8-3;
+          this.gravity=0.1; this.decay=0.015+Math.random()*0.015; this.size=4+Math.random()*8;
+        }
+        this.life=1; this.rotation=Math.random()*Math.PI*2; this.rotSpeed=(Math.random()-0.5)*0.2;
+      }
+      update() { this.x+=this.vx; this.vy+=this.gravity; this.y+=this.vy; this.vx*=0.98; this.life-=this.decay; this.rotation+=this.rotSpeed; }
+      draw() {
+        ctx.save(); ctx.translate(this.x,this.y); ctx.rotate(this.rotation); ctx.globalAlpha=this.life;
+        if (this.type==='heart') { ctx.font=this.size*2+'px serif'; ctx.fillText('\u{2764}\u{FE0F}',-this.size,this.size/2); }
+        else if (this.type==='yuzu') { ctx.font=this.size*2+'px serif'; ctx.fillText('\u{1F34A}',-this.size,this.size/2); }
+        else if (this.type==='sparkle') { ctx.font=this.size*2+'px serif'; ctx.fillText('\u{2728}',-this.size,this.size/2); }
+        else if (this.type==='bubble') {
+          ctx.beginPath(); ctx.arc(0,0,this.size,0,Math.PI*2);
+          ctx.fillStyle='rgba(180,220,225,0.35)'; ctx.fill();
+          ctx.strokeStyle='rgba(220,240,245,0.7)'; ctx.lineWidth=1.2; ctx.stroke();
+          // tiny highlight
+          ctx.beginPath(); ctx.arc(-this.size*0.35,-this.size*0.35,this.size*0.25,0,Math.PI*2);
+          ctx.fillStyle='rgba(255,255,255,0.55)'; ctx.fill();
+        }
+        else { ctx.fillStyle=this.type==='warm'?'#D4915E':'#FF8C42'; ctx.fillRect(-this.size/2,-this.size/2,this.size,this.size); }
+        ctx.restore();
+      }
     }
-    function spawnPetParticles(){const cx=window.innerWidth/2,cy=window.innerHeight*0.18;for(let i=0;i<20;i++)particles.push(new Particle(cx,cy,['heart','sparkle','warm','orange'][Math.floor(Math.random()*4)]));}
+    function spawnPetParticles(){
+      // Splash from the pool beneath the capy — local, quiet, water-only
+      const pool = document.querySelector('.pool');
+      let cx = window.innerWidth/2, cy = window.innerHeight * 0.22;
+      if (pool) { const r = pool.getBoundingClientRect(); cx = r.left + r.width/2; cy = r.top + r.height/2; }
+      for (let i=0; i<14; i++) particles.push(new Particle(cx + (Math.random()-0.5)*55, cy, 'bubble'));
+      for (let i=0; i<3; i++) particles.push(new Particle(cx + (Math.random()-0.5)*45, cy, 'yuzu'));
+    }
     function animateParticles(){ctx.clearRect(0,0,canvas.width,canvas.height);particles=particles.filter(p=>p.life>0);particles.forEach(p=>{p.update();p.draw();});requestAnimationFrame(animateParticles);}
     animateParticles();
 
     // ==== PET ANIMATION ====
+    // Single-locus reaction: capy bobs, pool ripples spread, a small splash rises from the water.
+    // No screen shake, no center-screen flash — onsen, not stadium.
     function triggerPetAnimation() {
       const c=document.getElementById('capy');c.classList.remove('petting');void c.offsetWidth;c.classList.add('petting');
-      // Swap to laugh face during pet, then back to heart
       const img=document.getElementById('capyImg');
       img.src='capy-laugh.png';
       setTimeout(()=>{img.src='capy-heart.png';},800);
-      [1,2,3].forEach((n,i)=>{const r=document.getElementById('ring'+n);setTimeout(()=>{r.classList.remove('active');void r.offsetWidth;r.classList.add('active');},i*150);});
-      document.body.classList.remove('shake');void document.body.offsetWidth;document.body.classList.add('shake');
+      [1,2,3].forEach((n,i)=>{const r=document.getElementById('ring'+n);setTimeout(()=>{r.classList.remove('active');void r.offsetWidth;r.classList.add('active');},i*180);});
       spawnPetParticles();
       playPetSound();
-      document.querySelectorAll('.stat-box .value').forEach(el=>{el.classList.remove('pop');void el.offsetWidth;el.classList.add('pop');});
+    }
+    function highlightStatTick() {
+      const el = document.getElementById('yourPets');
+      if (!el) return;
+      el.classList.remove('pop'); void el.offsetWidth; el.classList.add('pop');
     }
 
     // ==== HELPERS ====
@@ -710,16 +751,30 @@
       document.getElementById('streakCount').textContent = streak > 0 ? streak + '\u{2764}\u{FE0F}' : '-';
     }
 
-    // ==== MILESTONES ====
+    // ==== STAMP CARD ====
     function updateMilestones(pets) {
       const card = document.getElementById('milestonesCard');
-      const container = document.getElementById('milestones');
-      if (!pets && pets !== 0) { card.style.display = 'none'; return; }
-      card.style.display = 'block';
-      container.innerHTML = MILESTONES.map(m => {
-        const achieved = pets >= m.beats;
-        return `<div class="milestone ${achieved ? 'achieved' : ''}"><span class="m-icon">${m.icon}</span>${m.label}</div>`;
-      }).join('');
+      const row = document.getElementById('milestoneRow');
+      const caption = document.getElementById('milestoneCaption');
+      if (pets === null || pets === undefined) { card.style.display = 'none'; return; }
+      card.style.display = 'flex';
+      const next = MILESTONES.find(m => pets < m.pets);
+      let html = '';
+      MILESTONES.forEach((m, i) => {
+        const achieved = pets >= m.pets;
+        const isCurrent = next && m.pets === next.pets;
+        const cls = achieved ? 'achieved' : (isCurrent ? 'current' : '');
+        const inner = achieved ? m.icon : fmtTier(m.pets);
+        html += `<div class="stamp ${cls}" title="${m.label}">${inner}</div>`;
+        if (i < MILESTONES.length - 1) {
+          const linkAchieved = pets >= MILESTONES[i + 1].pets ? 'achieved' : '';
+          html += `<div class="stamp-link ${linkAchieved}" aria-hidden="true"></div>`;
+        }
+      });
+      row.innerHTML = html;
+      caption.innerHTML = next
+        ? `next stamp at <strong>${fmtTier(next.pets)}</strong> &mdash; ${next.pets - pets} pet${next.pets - pets === 1 ? '' : 's'} to go`
+        : `<strong>all stamps collected.</strong> the pond is yours.`;
     }
 
     // ==== EVENT LOG INDEXING ====
@@ -761,22 +816,25 @@
       const entries = Array.from(knownPetters.values()).sort((a, b) => b.beats - a.beats);
 
       if (entries.length === 0) {
-        container.innerHTML = '<div class="leaderboard-empty">No pets yet. Be the first!</div>';
+        container.innerHTML = '<div class="lb-empty">no pets yet. be the first to drop a pebble.</div>';
         return;
       }
 
-      const rankEmoji = ['\u{1F947}', '\u{1F948}', '\u{1F949}'];
-      let html = '<table class="leaderboard-table"><thead><tr><th>#</th><th>Petter</th><th>Pets</th></tr></thead><tbody>';
-      entries.slice(0, 20).forEach((e, i) => {
-        const rank = i < 3 ? rankEmoji[i] : (i + 1);
-        const rankClass = i < 3 ? `rank-${i + 1}` : '';
-        const display = e.basename ? `<span class="basename">${e.basename}</span>` :
-                         e.name ? e.name :
-                         `<span class="addr-mono">${e.addr.slice(0, 6)}...${e.addr.slice(-4)}</span>`;
+      const max = entries[0].beats || 1;
+      let html = '<ul class="lb">';
+      entries.slice(0, 20).forEach((e) => {
+        const display = e.basename ? `<span class="basename">${e.basename}</span>`
+          : e.name ? e.name
+          : `<span class="addr-mono">${e.addr.slice(0, 6)}…${e.addr.slice(-4)}</span>`;
         const isYou = userAddress && e.addr.toLowerCase() === userAddress.toLowerCase();
-        html += `<tr class="leaderboard-row ${isYou ? 'is-you' : ''}"><td class="${rankClass}">${rank}</td><td>${display}${isYou ? ' (you)' : ''}</td><td>${e.beats}</td></tr>`;
+        const w = Math.max(3, Math.round((e.beats / max) * 100));
+        html += `<li class="lb-row ${isYou ? 'is-you' : ''}">
+          <span class="lb-name">${display}${isYou ? ' <em>· you</em>' : ''}</span>
+          <span class="lb-bar" aria-hidden="true"><span class="lb-fill" style="width:${w}%"></span></span>
+          <span class="lb-count">${e.beats}</span>
+        </li>`;
       });
-      html += '</tbody></table>';
+      html += '</ul>';
       container.innerHTML = html;
     }
 
@@ -854,7 +912,7 @@
         overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);z-index:1000;display:flex;align-items:center;justify-content:center;';
         const modal = document.createElement('div');
         modal.style.cssText = 'background:var(--bg-card,#1e1208);border:1px solid var(--nav-border,rgba(212,145,94,0.15));border-radius:16px;padding:1.5rem;max-width:360px;width:90%;';
-        modal.innerHTML = '<h3 style="font-family:Righteous;color:var(--warm-light,#E8B88A);text-align:center;margin-bottom:1rem;">Choose Wallet</h3>';
+        modal.innerHTML = '<h3 style="font-family:Fraunces,serif;font-style:italic;font-weight:500;color:var(--warm-light,#E8B88A);text-align:left;margin-bottom:1rem;letter-spacing:-0.02em;">choose wallet</h3>';
         options.forEach((w) => {
           const btn = document.createElement('button');
           btn.style.cssText = 'display:flex;align-items:center;gap:0.75rem;width:100%;padding:0.75rem 1rem;margin:0.4rem 0;border-radius:12px;background:var(--bg-stat,rgba(40,24,10,0.5));border:1px solid var(--stat-border,rgba(212,145,94,0.1));color:var(--text-primary,#e8ddd0);cursor:pointer;font-size:0.95rem;font-weight:600;min-height:52px;';
@@ -878,35 +936,33 @@
     async function connectWallet() {
       let provider;
       const options = buildWalletOptions();
-      // If multiple wallet options, show picker
       if (options.length > 1) {
         provider = await showWalletPicker(options);
-        if (!provider) return; // user cancelled
+        if (!provider) return;
       } else if (options.length === 1) {
         provider = options[0].provider;
       } else {
         provider = await getProvider();
       }
-      if (!provider) { showStatus('No wallet detected. Please use a wallet-enabled browser or app.', 'error'); return; }
-      // Store chosen provider for subsequent calls
+      if (!provider) { showStatus('no wallet detected. open in a wallet-enabled browser or app.', 'error'); return; }
       window.__ethProvider = provider;
       try {
         const accounts = await provider.request({ method: 'eth_requestAccounts' });
         userAddress = accounts[0];
-        // Show basename or shortened address (avoid raw 0x display)
         const walletAddrEl = document.getElementById('walletAddr');
-        walletAddrEl.textContent = userAddress.slice(0,6) + '...' + userAddress.slice(-4);
+        walletAddrEl.textContent = userAddress.slice(0,6) + '…' + userAddress.slice(-4);
         resolveBasename(userAddress).then(bn => { if (bn) walletAddrEl.textContent = bn; });
         document.getElementById('connectBtn').style.display = 'none';
-        document.getElementById('walletInfo').style.display = 'block';
+        document.getElementById('walletInfo').style.display = 'flex';
+        document.getElementById('actionPanel').style.display = 'block';
         document.getElementById('petBtn').disabled = false;
         document.getElementById('nameBtn').disabled = false;
         try { await provider.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: BASE_CHAIN_ID }] });
         } catch(e) { if(e.code===4902) await provider.request({ method:'wallet_addEthereumChain', params:[{chainId:BASE_CHAIN_ID,chainName:'Base',nativeCurrency:{name:'ETH',symbol:'ETH',decimals:18},rpcUrls:[BASE_RPC],blockExplorerUrls:['https://basescan.org']}]}); }
-        showStatus('Wallet connected to Base Mainnet', 'success');
+        showStatus('connected to base mainnet', 'success');
         updateStreakUI();
         refreshStats();
-      } catch(err) { showStatus('Connection failed: ' + err.message, 'error'); }
+      } catch(err) { showStatus('connection failed: ' + err.message, 'error'); }
     }
 
     function disconnectWallet() {
@@ -915,13 +971,14 @@
       document.getElementById('walletInfo').style.display = 'none';
       document.getElementById('connectBtn').style.display = '';
       document.getElementById('connectBtn').disabled = false;
+      document.getElementById('actionPanel').style.display = 'none';
       document.getElementById('petBtn').disabled = true;
       document.getElementById('nameBtn').disabled = true;
-      document.getElementById('yourPets').textContent = '-';
-      document.getElementById('streakCount').textContent = '-';
+      document.getElementById('yourPets').textContent = '—';
+      document.getElementById('streakCount').textContent = '—';
       document.getElementById('milestonesCard').style.display = 'none';
       document.getElementById('statusMsg').innerHTML = '';
-      showToast('Wallet disconnected');
+      showToast('wallet disconnected');
     }
 
     // ==== STATS ====
@@ -999,31 +1056,33 @@
       if (!userAddress) return;
       const provider = await getProvider();
       try {
-        showStatus('Sending pet transaction...', 'info');
+        showStatus('sending pet transaction...', 'info');
         triggerPetAnimation();
         const { hash, sponsored } = await sendSponsoredTx(provider, CONTRACT_ADDRESS, appendSuffix(SELECTORS.petCapybara));
-        const flash = document.getElementById('petFlash');
-        flash.textContent = (parseInt(document.getElementById('totalPets').textContent)||0)+1;
-        flash.classList.remove('show'); void flash.offsetWidth; flash.classList.add('show');
+        // Optimistic local tick — show your pets +1 in place, quietly
+        const yp = document.getElementById('yourPets');
+        const cur = parseInt(yp.textContent.replace(/[^\d]/g, '')) || 0;
+        yp.textContent = cur + 1;
+        highlightStatTick();
         recordPet();
         const sponsoredMsg = sponsored ? ' (gas sponsored!)' : '';
-        showStatus(`Capybara petted${sponsoredMsg}! <a href="https://basescan.org/tx/${hash}" target="_blank">View TX \u{2197}</a>`, 'success');
+        showStatus(`capybara petted${sponsoredMsg}. <a href="https://basescan.org/tx/${hash}" target="_blank">view tx \u{2197}</a>`, 'success');
         setTimeout(() => { refreshStats(); indexPetters(); }, 4000);
-      } catch(err) { showStatus('Transaction failed: ' + err.message, 'error'); }
+      } catch(err) { showStatus('transaction failed: ' + err.message, 'error'); }
     }
 
     async function setName() {
       if (!userAddress) return;
       const provider = await getProvider();
       const name = document.getElementById('nameInput').value.trim();
-      if (!name || name.length > 32) { showStatus('Name must be 1-32 characters', 'error'); return; }
+      if (!name || name.length > 32) { showStatus('name must be 1–32 characters', 'error'); return; }
       try {
-        showStatus('Setting petter name...', 'info');
+        showStatus('setting petter name…', 'info');
         const { hash, sponsored } = await sendSponsoredTx(provider, CONTRACT_ADDRESS, appendSuffix(SELECTORS.setPetterName + encodeString(name)));
-        const sponsoredMsg = sponsored ? ' (gas sponsored!)' : '';
-        showStatus(`Name set${sponsoredMsg}! <a href="https://basescan.org/tx/${hash}" target="_blank">View TX \u{2197}</a>`, 'success');
+        const sponsoredMsg = sponsored ? ' (gas sponsored)' : '';
+        showStatus(`name set${sponsoredMsg}. <a href="https://basescan.org/tx/${hash}" target="_blank">view tx \u{2197}</a>`, 'success');
         setTimeout(refreshStats, 3000);
-      } catch(err) { showStatus('Transaction failed: ' + err.message, 'error'); }
+      } catch(err) { showStatus('transaction failed: ' + err.message, 'error'); }
     }
 
     // ==== INIT ====
